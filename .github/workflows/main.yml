@@ -29,11 +29,11 @@ jobs:
           CI: false
       - name: zip create
         # zip 파일을 만듭니다(파일명은 자유, 대신 아래 workflow에 적을 파일명과 동일하게 맞춰주세요).
-        run: zip -qq -r build-fe.zip dist
+        run: zip -qq -r ./build-fe.zip dist
         shell: bash
 
       - name: Upload to S3
-        run: aws s3 cp --recursive --region ap-northeast-2 ./build-fe.zip 
+        run: aws s3 cp --recursive --region ap-northeast-2 build-fe.zip 
           s3://${{ secrets.AWS_S3_BUCKET_NAME}}/build-fe.zip 
       
       - name: Deploy # Deploy to EC2
