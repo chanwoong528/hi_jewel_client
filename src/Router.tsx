@@ -24,6 +24,7 @@ const Router = () => {
   return (
     <HashRouter>
       <Navbar />
+
       <Routes>
         {PAGE_LIST.map((item) => {
           return <Route key={item.label} path={item.url} element={ROUTE_LIST[item.label]} />
