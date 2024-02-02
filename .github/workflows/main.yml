@@ -1,45 +1,45 @@
-name: client
-on:
-  push:
-    branches:
-      - main
-jobs:
-  run:
-    runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+# name: client
+# on:
+#   push:
+#     branches:
+#       - main
+# jobs:
+#   run:
+#     runs-on: ubuntu-latest
+#     env:
+#       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
-    steps: #각 단계의 이름과 실행내용을 나열해서 작성한다.
-      - name: Checkout source code.
-        uses: actions/checkout@v2
+#     steps: #각 단계의 이름과 실행내용을 나열해서 작성한다.
+#       - name: Checkout source code.
+#         uses: actions/checkout@v2
 
-      - name: node version setup
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+#       - name: node version setup
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 18
 
-      - name: install dep
-        run: npm install
+#       - name: install dep
+#         run: npm install
 
-      - name: build react
-        run: npm run build
-        env:
-          CI: false
-      - name: zip create
-        # zip 파일을 만듭니다(파일명은 자유, 대신 아래 workflow에 적을 파일명과 동일하게 맞춰주세요).
-        run: zip -r ./build-fe.zip ./
-        shell: bash
+#       - name: build react
+#         run: npm run build
+#         env:
+#           CI: false
+#       - name: zip create
+#         # zip 파일을 만듭니다(파일명은 자유, 대신 아래 workflow에 적을 파일명과 동일하게 맞춰주세요).
+#         run: zip -r ./build-fe.zip ./
+#         shell: bash
 
-      - name: Upload to S3
-        # run: aws s3 cp --recursive --region ap-northeast-2 ./build-fe.zip 
-        run: aws s3 cp --region ${{ secrets.AWS_DEFAULT_REGION }} ./build-fe.zip s3://${{ secrets.AWS_S3_BUCKET_NAME}}/build-fe.zip
+#       - name: Upload to S3
+#         # run: aws s3 cp --recursive --region ap-northeast-2 ./build-fe.zip 
+#         run: aws s3 cp --region ${{ secrets.AWS_DEFAULT_REGION }} ./build-fe.zip s3://${{ secrets.AWS_S3_BUCKET_NAME}}/build-fe.zip
       
-      - name: Deploy # Deploy to EC2
-        run: aws deploy create-deployment
-          --application-name hi_jewel_client
-          --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name hi_jewel_client
-          --region ${{ secrets.AWS_DEFAULT_REGION }}
-          --s3-location bucket=${{ secrets.AWS_S3_BUCKET_NAME}},key=build-fe.zip,bundleType=zip
+#       - name: Deploy # Deploy to EC2
+#         run: aws deploy create-deployment
+#           --application-name hi_jewel_client
+#           --deployment-config-name CodeDeployDefault.AllAtOnce
+#           --deployment-group-name hi_jewel_client
+#           --region ${{ secrets.AWS_DEFAULT_REGION }}
+#           --s3-location bucket=${{ secrets.AWS_S3_BUCKET_NAME}},key=build-fe.zip,bundleType=zip
