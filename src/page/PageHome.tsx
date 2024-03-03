@@ -1,7 +1,7 @@
 
 const PageHome = () => {
   return (
-    <div>PageHome</div>
+    <main className="page">PageHome</main>
   )
 }
 

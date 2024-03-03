@@ -2,7 +2,7 @@
 
 const PageProduct = () => {
   return (
-    <div>PageProduct</div>
+    <main className="page">PageProduct</main>
   )
 }
 

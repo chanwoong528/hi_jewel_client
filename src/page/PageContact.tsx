@@ -1,7 +1,7 @@
 
 const PageContact = () => {
   return (
-    <div>PageContact</div>
+    <main className="page">PageContact</main>
   )
 }
 

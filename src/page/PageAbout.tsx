@@ -2,7 +2,7 @@
 
 const PageAbout = () => {
   return (
-    <div>PageAbout</div>
+    <main className="page">PageAbout</main>
   )
 }
 
