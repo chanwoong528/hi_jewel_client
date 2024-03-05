@@ -34,7 +34,7 @@ const Router = () => {
           return <Route key={item.label} path={item.url} element={ROUTE_LIST[item.label]} />
         })}
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </HashRouter > :
   </>)
 }
