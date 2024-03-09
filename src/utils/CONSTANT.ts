@@ -22,3 +22,34 @@ export const PAGE_LIST = [
     adminRequired: true,
   },
 ];
+
+export const PRODUCT_TYPE_LIST_IMG = [
+  {
+    name: "Earring",
+    imgSrc: "",
+  },
+  {
+    name: "Necklace",
+    imgSrc: "",
+  },
+  {
+    name: "Bracelet",
+    imgSrc: "",
+  },
+  {
+    name: "Ring",
+    imgSrc: "",
+  },
+  {
+    name: "Chain",
+    imgSrc: "",
+  },
+  {
+    name: "Set",
+    imgSrc: "",
+  },
+  {
+    name: "Other Acc.",
+    imgSrc: "",
+  },
+];

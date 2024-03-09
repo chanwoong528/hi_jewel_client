@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { POST_productType } from "@/http/fetchApi/productApi"
+import useProductTypeStore from "@/store/productTypeStore"
 const formSchema = z.object({
   label: z.string().min(2, {
     message: "Title must be at least 2 characters.",
@@ -21,23 +23,28 @@ const formSchema = z.object({
   description: z.string().min(2, {
     message: "Description must be at least 2 characters.",
   }),
+  imgFile: z.instanceof(File, {
+    message: "Please upload an image file.",
+  }),
 
 })
 
-const FromProductType = () => {
+const FormProductType = () => {
+
+  const { addProductTypeItem } = useProductTypeStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       label: "",
       description: "",
+      imgFile: undefined,
 
     },
   })
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+    POST_productType({ label: values.label, description: values.description, image: values.imgFile, }).then((result) => addProductTypeItem(result.data));
+
   }
   return (
     <Form {...form}>
@@ -74,11 +81,31 @@ const FromProductType = () => {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="imgFile"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>imgFile</FormLabel>
+              <FormControl>
+                <Input
+                  accept=".jpg, .jpeg, .png, .svg, .gif"
+                  type="file"
+                  onChange={(e) =>
+                    field.onChange(e.target.files ? e.target.files[0] : null)
+                  } />
+              </FormControl>
+              <FormDescription>
+                Image of picture
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
   )
 }
 
-export default FromProductType
+export default FormProductType

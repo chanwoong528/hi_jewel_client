@@ -20,23 +20,27 @@ const ROUTE_LIST = {
   [PAGE_LABEL.contact]: <PageContact />,
   [PAGE_LABEL.about]: <PageAbout />,
   [PAGE_LABEL.product]: <PageProduct />,
-  [PAGE_LABEL.login]: <PageLogin />,
   [PAGE_LABEL.admin]: <PageAdmin />,
+  [PAGE_LABEL.login]: <PageLogin />,
 }
 
 const Router = () => {
 
-  return (<>
-    <HashRouter>
-      <Navbar />
-      <Routes>
-        {PAGE_LIST.map((item) => {
-          return <Route key={item.label} path={item.url} element={ROUTE_LIST[item.label]} />
-        })}
-      </Routes>
-      <Footer />
-    </HashRouter > :
-  </>)
+  return (
+    <div className='wrap'>
+      <HashRouter>
+
+        <Navbar />
+        <Routes>
+          {PAGE_LIST.map((item) => {
+            return <Route key={item.label} path={item.url} element={ROUTE_LIST[item.label]} />
+          })}
+        </Routes>
+        <Footer />
+
+      </HashRouter >
+    </div>
+  )
 }
 
 export default Router

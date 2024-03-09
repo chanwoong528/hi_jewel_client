@@ -1,7 +1,8 @@
 import axios from "axios";
 
-// const DEV_BASE_RESTAPI = "https://hijewelserver-production.up.railway.app";
-const DEV_BASE_RESTAPI = "http://localhost:5002";
+const DEV_BASE_RESTAPI = "https://hijewelserver-production.up.railway.app";
+
+// const DEV_BASE_RESTAPI = "http://localhost:5002";
 // const DEV_API_BASE = "http://localhost:9080";
 
 export const http = axios.create({

@@ -1,10 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { isMobileOnly } from "react-device-detect";
-
-import Cookies from 'js-cookie';
-
-import { useGetUser } from "@/http/service/queries";
-import { useClearUser } from "@/http/service/mutations";
+import useUserStore from "../store/userStore";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,15 +14,31 @@ import {
 import { PAGE_LIST } from '../utils/CONSTANT'
 
 import "./navbar.module.scss"
+import { useEffect } from "react";
+import { GET_user } from "@/http/fetchApi/userApi";
+
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  let location = useLocation();
+  const navigation = useNavigate();
+  const { userInfo, updateUser, resetUser } = useUserStore();
+
+  useEffect(() => {
+    const fetchGetUser = () => {
+      GET_user().then((result) => {
+        updateUser(result.data)
+      }).catch(() => {
+        if (location.pathname === "/admin") {
+          navigation("/login")
+        }
+        resetUser();
+      })
+    }
+    fetchGetUser();
+  }, [location.pathname === "/admin"])
 
 
-  if (!Cookies.get('access_token') && !Cookies.get('refresh_token')) useClearUser();
-  const userQuery = useGetUser();
-  if (userQuery.isLoading) return <div>loading...</div>
-
-  // if (userQuery.isStale) userQuery.refetch();
 
   if (isMobileOnly) {
     return (
@@ -47,7 +59,7 @@ const Navbar = () => {
                 </li>
               })}
               {
-                userQuery.data?.data.role === "admin" ? <li>
+                userInfo.userRole === "admin" ? <li>
                   <Button asChild variant="ghost">
                     <Link to={"/admin"}>Admin</Link>
                   </Button>
@@ -61,7 +73,7 @@ const Navbar = () => {
 
 
   return (
-    <nav>
+    <nav className="max-w-[1200px]">
       <Button asChild variant="ghost">
         <Link to={"/"}>HI Jewel</Link>
       </Button>
@@ -75,14 +87,14 @@ const Navbar = () => {
           </li>
         })}
         {
-          !!(userQuery.data?.data.role === "admin") ? <li>
+          !!(userInfo.userRole === "admin") ? <li>
             <Button asChild variant="ghost">
               <Link to={"/admin"}>ADMIN</Link>
             </Button>
           </li> : null
         }
         {
-          !userQuery.data?.data.id ? <li>
+          !userInfo.userId ? <li>
             <Button asChild variant="ghost">
               <Link to={"/login"}>LOGIN</Link>
             </Button>

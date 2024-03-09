@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   Card,
@@ -7,21 +8,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import useUserStore from '../store/userStore'
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button'
-import { useLoginUser } from '@/http/service/mutations'
+
+import { POST_loginUser } from '@/http/fetchApi/userApi'
+
+
 
 const PageLogin = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { updateUser } = useUserStore()
 
-  const loginUserMutation = useLoginUser();
+  const navigation = useNavigate();
+
 
   const onClickLogin = () => {
-    loginUserMutation.mutate({ email, type: 'email', pw: password })
-
+    POST_loginUser(email, password, 'email').then((result) => {
+      updateUser(result.data)
+      return navigation('/')
+    })
   }
-
   return (
     <main className="page">
       <div className='card-wrap'>

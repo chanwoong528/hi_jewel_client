@@ -13,34 +13,61 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-const formSchema = z.object({
-  productTitle: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  description: z.string().min(2, {
-    message: "Description must be at least 2 characters.",
-  }),
-  imgFile: z.instanceof(File, {
-    message: "Please upload an image file.",
-  }),
-})
+import useProductTypeStore from "@/store/productTypeStore"
+import { POST_Product } from "@/http/fetchApi/productApi"
+import useProductStore from "@/store/productStore"
+
+
 
 
 const FormImageUpload = () => {
+
+  const { productTypeList } = useProductTypeStore();
+  const { addProductItem } = useProductStore();
+  const formSchema = z.object({
+    productTitle: z.string().min(2, {
+      message: "Title must be at least 2 characters.",
+    }),
+    description: z.string().min(2, {
+      message: "Description must be at least 2 characters.",
+    }),
+    imgFile: z.instanceof(File, {
+      message: "Please upload an image file.",
+    }),
+    productType: z.string().refine(val => productTypeList.some(productType => productType.id === val), {
+      message: "Description must be at least 2 characters.",
+    }),
+  })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       productTitle: "",
       description: "",
-      imgFile: undefined
+      imgFile: undefined,
+      productType: ""
     },
   })
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values)
+    POST_Product({
+      title: values.productTitle,
+      description: values.description,
+      image: values.imgFile,
+      typeId: values.productType
+    }).then((result) => addProductItem(result.data))
   }
+
+
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -55,6 +82,31 @@ const FormImageUpload = () => {
               </FormControl>
               <FormDescription>
                 Title of product
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="productType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Product Type</FormLabel>
+              <FormControl>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Theme" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {productTypeList.map((productType) => {
+                      return <SelectItem key={productType.id} value={productType.id} >{productType.label}</SelectItem>
+                    })}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormDescription>
+                Product Type
               </FormDescription>
               <FormMessage />
             </FormItem>

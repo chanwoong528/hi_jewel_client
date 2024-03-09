@@ -47,3 +47,21 @@ export const GET_user = async () => {
     console.warn(error);
   }
 };
+
+export const GET_userList = async () => {
+  try {
+    const fetchUserList = await http.get("/user/list");
+    const data = await fetchUserList.data;
+    return data;
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+export const PATCH_userRole = async (id: string, role: string) => {
+  try {
+    const fetchUpdateUser = await http.patch("/user/update", { id, role });
+    const data = await fetchUpdateUser.data;
+    return data;
+  } catch (error) {}
+};

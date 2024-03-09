@@ -77,9 +77,14 @@
 // .mobile-wrap {
 //   padding: 0 20px;
 // }
+.wrap {
+  margin: 0 auto;
+  max-width: 1200px;
+}
 .page {
   padding: 0 20px;
   display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 70vh;
   // justify-content: center;
@@ -87,5 +92,13 @@
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+  }
+}
+.home-banner {
+  width: 1200px;
+  height: 685px;
+  margin: 0 auto;
+  > img {
+    width: 100%;
   }
 }
