@@ -1,9 +1,7 @@
 import axios from "axios";
 
 const DEV_BASE_RESTAPI = "https://hijewelserver-production.up.railway.app";
-
 // const DEV_BASE_RESTAPI = "http://localhost:5002";
-// const DEV_API_BASE = "http://localhost:9080";
 
 export const http = axios.create({
   baseURL: DEV_BASE_RESTAPI,
@@ -11,6 +9,16 @@ export const http = axios.create({
     "Content-Type": "application/json",
   },
   withCredentials: true,
+});
+
+http.interceptors.request.use((config) => {
+  console.log("config ", localStorage.getItem("accessToken"));
+  if (localStorage.getItem("accessToken")) {
+    let accessToken = localStorage.getItem("accessToken");
+    
+    config.headers["authorization"] = `Bearer ${accessToken}`;
+  }
+  return config;
 });
 
 // export const setHttpHeaderToken = (token: string) => {

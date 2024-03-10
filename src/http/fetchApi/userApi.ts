@@ -1,4 +1,5 @@
 import { http } from "../http";
+import Cookies from "js-cookie";
 
 export const POST_registerUser = async (
   email: string,
@@ -31,6 +32,9 @@ export const POST_loginUser = async (
       type,
     });
     const data = await fetchLoginUser.data;
+
+    localStorage.setItem("accessToken", Cookies.get("access_token") || "");
+
     return data;
   } catch (error) {
     console.warn(error);
