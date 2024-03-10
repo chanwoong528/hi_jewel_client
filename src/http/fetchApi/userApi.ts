@@ -1,5 +1,4 @@
 import { http } from "../http";
-import Cookies from "js-cookie";
 
 export const POST_registerUser = async (
   email: string,
