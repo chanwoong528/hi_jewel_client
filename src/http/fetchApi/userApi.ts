@@ -32,9 +32,7 @@ export const POST_loginUser = async (
       type,
     });
     const data = await fetchLoginUser.data;
-
-    localStorage.setItem("accessToken", Cookies.get("access_token") || "");
-
+    localStorage.setItem("accessToken", data.data.access_token);
     return data;
   } catch (error) {
     console.warn(error);

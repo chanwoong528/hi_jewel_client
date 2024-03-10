@@ -12,10 +12,9 @@ export const http = axios.create({
 });
 
 http.interceptors.request.use((config) => {
-  console.log("config ", localStorage.getItem("accessToken"));
   if (localStorage.getItem("accessToken")) {
     let accessToken = localStorage.getItem("accessToken");
-    
+
     config.headers["authorization"] = `Bearer ${accessToken}`;
   }
   return config;
