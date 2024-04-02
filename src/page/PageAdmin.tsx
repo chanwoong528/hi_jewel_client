@@ -2,9 +2,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
 import ListProductType from '@/components/list/ListProductType'
-import FormProductType from "@/components/form/FormProductType"
 import ListProduct from "@/components/list/ListProduct"
 import ListUsers from "@/components/list/ListUsers"
+import FormProductType from "@/components/form/FormProductType"
+import FormProduct from "@/components/form/FormProduct"
+
 import DefaultModal from "@/components/modal/DefaultModal"
 
 
@@ -40,8 +42,9 @@ const PageAdmin = () => {
             dialogTitle={"Upload Image"}
             triggerTitle={"Add New Product"}
           >
-            <ListProduct />
+            <FormProduct />
           </DefaultModal>
+          <ListProduct />
         </TabsContent>
 
         <TabsContent value="user-list">

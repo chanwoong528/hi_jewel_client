@@ -74,12 +74,14 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
         description: values.description,
         image: values.imgFileEdit,
       }).then((result) => {
-        setCurImgSrc(result.data.imgSrc);
+        if (result.data.imgSrc) {
+          setCurImgSrc(result.data.imgSrc);
+        }
         updateProductTypeItem({
           id: curData.id,
           label: values.label,
           description: values.description,
-          imgSrc: result.data.imgSrc
+          ...(!!result.data.imgSrc && { imgSrc: result.data.imgSrc })
         })
       })
 

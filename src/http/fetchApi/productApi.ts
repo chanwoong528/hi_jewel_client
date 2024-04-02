@@ -16,6 +16,13 @@ interface ProductParam {
   image: File;
   typeId: string;
 }
+interface ProductEditParam {
+  title?: string;
+  description?: string;
+  image?: File;
+  typeId?: string;
+  isPresented?: "0" | "1";
+}
 
 export const GET_productType = async () => {
   try {
@@ -94,6 +101,27 @@ export const POST_Product = async (product: ProductParam) => {
       },
     });
     const data = await createProduct.data;
+    return data;
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+export const PATCH_product = async (id: string, product: ProductEditParam) => {
+  const formData = new FormData();
+  Object.keys(product).forEach((key) => {
+    // @ts-ignore
+    formData.append(key, product[key]);
+  });
+
+  try {
+    const patchProduct = await http.patch(`/product/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const data = await patchProduct.data;
+    console.log(">>> ", data);
     return data;
   } catch (error) {
     console.warn(error);

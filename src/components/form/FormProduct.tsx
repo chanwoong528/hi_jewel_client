@@ -22,48 +22,97 @@ import {
 } from "@/components/ui/select"
 
 import useProductTypeStore from "@/store/productTypeStore"
-import { POST_Product } from "@/http/fetchApi/productApi"
+import { PATCH_product, POST_Product } from "@/http/fetchApi/productApi"
 import useProductStore from "@/store/productStore"
+import { useState } from "react"
+
+interface FormProductProps {
+  curData?: EditProductData
+}
+
+interface EditProductData {
+  id: string;
+  title?: string;
+  description?: string;
+  imgSrc?: string;
+  productType?: string;
+}
 
 
+const FormProduct = ({ curData }: FormProductProps) => {
 
-
-const FormImageUpload = () => {
+  const [curImgSrc, setCurImgSrc] = useState(curData?.imgSrc)
 
   const { productTypeList } = useProductTypeStore();
-  const { addProductItem } = useProductStore();
-  const formSchema = z.object({
-    productTitle: z.string().min(2, {
-      message: "Title must be at least 2 characters.",
-    }),
-    description: z.string().min(2, {
-      message: "Description must be at least 2 characters.",
-    }),
-    imgFile: z.instanceof(File, {
-      message: "Please upload an image file.",
-    }),
-    productType: z.string().refine(val => productTypeList.some(productType => productType.id === val), {
-      message: "Description must be at least 2 characters.",
-    }),
-  })
+  const { addProductItem, updateProductItem } = useProductStore();
+
+  const formSchema = z.object(
+    !curData?.id ? {
+      productTitle: z.string().min(2, {
+        message: "Title must be at least 2 characters.",
+      }),
+      description: z.string().min(2, {
+        message: "Description must be at least 2 characters.",
+      }),
+      imgFile: z.instanceof(File, {
+        message: "Please upload an image file.",
+      }),
+      productType: z.string().refine(val => productTypeList.some(productType => productType.id === val), {
+        message: "Description must be at least 2 characters.",
+      }),
+    } : {
+      productTitle: z.string().min(2, {
+        message: "Title must be at least 2 characters.",
+      }),
+      description: z.string().min(2, {
+        message: "Description must be at least 2 characters.",
+      }),
+      imgFileEdit: z.instanceof(File, { message: "Please upload an image file." }).optional(),
+      productType: z.string().refine(val => productTypeList.some(productType => productType.id === val), {
+        message: "Description must be at least 2 characters.",
+      }),
+    }
+
+  )
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      productTitle: "",
-      description: "",
+      productTitle: curData?.title ? curData.title : "",
+      description: curData?.description ? curData.description : "",
+      productType: curData?.productType ? curData.productType : "",
       imgFile: undefined,
-      productType: ""
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-    POST_Product({
-      title: values.productTitle,
-      description: values.description,
-      image: values.imgFile,
-      typeId: values.productType
-    }).then((result) => addProductItem(result.data))
+    if (curData?.id) {
+      //edit
+      return PATCH_product(curData.id, {
+        title: values.productTitle,
+        description: values.description,
+        image: values.imgFile,
+        typeId: values.productType
+      }).then((result) => {
+        if (result.data.imgSrc) {
+          setCurImgSrc(result.data.imgSrc);
+        }
+        updateProductItem({
+          id: curData.id,
+          title: values.productTitle,
+          description: values.description,
+          typeId: values.productType,
+          ...(!!result.data.imgSrc && { imgSrc: result.data.imgSrc })
+        })
+      })
+    } else {
+      POST_Product({
+        title: values.productTitle,
+        description: values.description,
+        image: values.imgFile,
+        typeId: values.productType
+      }).then((result) => addProductItem(result.data))
+    }
+
   }
 
 
@@ -96,11 +145,18 @@ const FormImageUpload = () => {
               <FormControl>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Theme" />
+                    <SelectValue placeholder="Product Type" />
                   </SelectTrigger>
                   <SelectContent>
                     {productTypeList.map((productType) => {
-                      return <SelectItem key={productType.id} value={productType.id} >{productType.label}</SelectItem>
+                      return (
+                        <SelectItem
+                          key={productType.id}
+                          value={productType.id}
+                        >
+                          {productType.label}
+                        </SelectItem>
+                      )
                     })}
                   </SelectContent>
                 </Select>
@@ -143,7 +199,12 @@ const FormImageUpload = () => {
                   } />
               </FormControl>
               <FormDescription>
-                Image of picture
+                {curData?.imgSrc ?
+                  (<>
+                    Current image
+                    <img src={curImgSrc} />
+                  </>)
+                  : "Image of picture"}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -155,4 +216,4 @@ const FormImageUpload = () => {
   )
 }
 
-export default FormImageUpload
+export default FormProduct
