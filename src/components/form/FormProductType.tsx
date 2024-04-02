@@ -14,38 +14,88 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { POST_productType } from "@/http/fetchApi/productApi"
+
+import { PATCH_productType, POST_productType } from "@/http/fetchApi/productApi"
 import useProductTypeStore from "@/store/productTypeStore"
-const formSchema = z.object({
-  label: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  description: z.string().min(2, {
-    message: "Description must be at least 2 characters.",
-  }),
-  imgFile: z.instanceof(File, {
-    message: "Please upload an image file.",
-  }),
+import { useState } from "react"
 
-})
 
-const FormProductType = () => {
+interface FormProductTypeProps {
+  curData?: EditCurData
+}
+interface EditCurData {
+  id: string
+  label?: string
+  description?: string
+  imgSrc?: string
+}
 
-  const { addProductTypeItem } = useProductTypeStore();
+const FormProductType = ({ curData }: FormProductTypeProps) => {
+  const [curImgSrc, setCurImgSrc] = useState(curData?.imgSrc)
+
+  const { addProductTypeItem, updateProductTypeItem } = useProductTypeStore();
+
+  const formSchema = z.object(
+    !curData?.id ? {
+      label: z.string().min(2, {
+        message: "Title must be at least 2 characters.",
+      }),
+      description: z.string().min(2, {
+        message: "Description must be at least 2 characters.",
+      }),
+      imgFile: z.instanceof(File, { message: "Please upload an image file." })
+    } :
+      {
+        label: z.string().min(2, {
+          message: "Title must be at least 2 characters.",
+        }),
+        description: z.string().min(2, {
+          message: "Description must be at least 2 characters.",
+        }),
+        imgFileEdit: z.instanceof(File, { message: "Please upload an image file." }).optional()
+      }
+  )
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      label: "",
-      description: "",
+      label: curData?.label ? curData.label : "",
+      description: curData?.description ? curData.description : "",
       imgFile: undefined,
 
     },
   })
   function onSubmit(values: z.infer<typeof formSchema>) {
-    POST_productType({ label: values.label, description: values.description, image: values.imgFile, }).then((result) => addProductTypeItem(result.data));
 
+    if (!!curData?.id) {
+      //edit
+      return PATCH_productType(curData.id, {
+        label: values.label,
+        description: values.description,
+        image: values.imgFileEdit,
+      }).then((result) => {
+        setCurImgSrc(result.data.imgSrc);
+        updateProductTypeItem({
+          id: curData.id,
+          label: values.label,
+          description: values.description,
+          imgSrc: result.data.imgSrc
+        })
+      })
+
+    } else {
+      //created
+      return POST_productType({
+        label: values.label,
+        description: values.description,
+        image: values.imgFile,
+      }).then((result) =>
+        addProductTypeItem(result.data)
+      );
+    }
   }
+
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -83,7 +133,7 @@ const FormProductType = () => {
         />
         <FormField
           control={form.control}
-          name="imgFile"
+          name={curData?.id ? "imgFileEdit" : "imgFile"}
           render={({ field }) => (
             <FormItem>
               <FormLabel>imgFile</FormLabel>
@@ -96,7 +146,12 @@ const FormProductType = () => {
                   } />
               </FormControl>
               <FormDescription>
-                Image of picture
+                {curData?.imgSrc ?
+                  (<>
+                    Current image
+                    <img src={curImgSrc} />
+                  </>)
+                  : "Image of picture"}
               </FormDescription>
               <FormMessage />
             </FormItem>

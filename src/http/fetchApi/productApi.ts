@@ -4,6 +4,12 @@ interface ProductTypeParam {
   description: string;
   image: File;
 }
+interface ProductTypeEditParam {
+  label?: string;
+  description?: string;
+  image?: File;
+  isPresented?: "0" | "1";
+}
 interface ProductParam {
   title: string;
   description: string;
@@ -24,6 +30,7 @@ export const GET_productType = async () => {
 
 export const POST_productType = async (productType: ProductTypeParam) => {
   const formData = new FormData();
+
   Object.keys(productType).forEach((key) => {
     // @ts-ignore
     formData.append(key, productType[key]);
@@ -35,6 +42,29 @@ export const POST_productType = async (productType: ProductTypeParam) => {
       },
     });
     const data = await createProductType.data;
+    return data;
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+export const PATCH_productType = async (
+  id: string,
+  productType: ProductTypeEditParam
+) => {
+  const formData = new FormData();
+  Object.keys(productType).forEach((key) => {
+    // @ts-ignore
+    formData.append(key, productType[key]);
+  });
+
+  try {
+    const patchProductType = await http.patch(`/product/type/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const data = await patchProductType.data;
     return data;
   } catch (error) {
     console.warn(error);
