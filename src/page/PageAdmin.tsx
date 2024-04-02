@@ -1,14 +1,6 @@
-
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-import FormImageUpload from '@/components/form/FormImageUpload'
+
 import ListProductType from '@/components/list/ListProductType'
 import FormProductType from "@/components/form/FormProductType"
 import ListProduct from "@/components/list/ListProduct"
