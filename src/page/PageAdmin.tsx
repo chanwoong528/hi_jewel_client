@@ -8,6 +8,8 @@ import FormProductType from "@/components/form/FormProductType"
 import FormProduct from "@/components/form/FormProduct"
 
 import DefaultModal from "@/components/modal/DefaultModal"
+import ListPosts from "@/components/list/ListPosts"
+import FormPost from "@/components/form/FormPost"
 
 
 const PageAdmin = () => {
@@ -18,6 +20,7 @@ const PageAdmin = () => {
         <TabsList>
           <TabsTrigger value="type-list">Category Manager</TabsTrigger>
           <TabsTrigger value="item-list">Uploaded Item</TabsTrigger>
+          <TabsTrigger value="post-list">Manage Post</TabsTrigger>
           <TabsTrigger value="user-list">User List</TabsTrigger>
         </TabsList>
 
@@ -45,6 +48,19 @@ const PageAdmin = () => {
             <FormProduct />
           </DefaultModal>
           <ListProduct />
+        </TabsContent>
+        <TabsContent value="post-list">
+          <header>
+            <h3>Post list</h3>
+          </header>
+          <DefaultModal
+            dialogTitle={"Upload Notice"}
+            triggerTitle={"Add New Notice"}
+          >
+            <FormPost />
+          </DefaultModal>
+          <ListPosts />
+
         </TabsContent>
 
         <TabsContent value="user-list">
