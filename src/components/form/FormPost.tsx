@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 import EditorSun from "../EditorSun"
-import { POST_post } from "@/http/fetchApi/postApi"
+import { POST_post, PostType } from "@/http/fetchApi/postApi"
 
 import usePostStore from "@/store/postStore"
 import useUserStore from "@/store/userStore"
@@ -36,7 +36,7 @@ interface EditPostData {
 
 const FormPost = ({ curData }: FormPostProps) => {
 
-  // const { postList } = usePostStore();
+  const { addPost } = usePostStore();
   const { userInfo } = useUserStore()
 
   const formSchema = z.object(
@@ -76,19 +76,15 @@ const FormPost = ({ curData }: FormPostProps) => {
 
     } else {
       //create
-      let postParam = {
+      if (!userInfo.userEmail) return alert("Please login");
+
+      const postParam = {
         title: values.postTitle,
         content: values.content,
-        type: "0",
+        type: PostType.notice,
         userEmail: userInfo.userEmail
-
       }
-
-      return POST_post(postParam).then((result) => {
-        console.log(">>>>>>>>>>>", result)
-      })
-
-
+      return POST_post(postParam).then((result) => addPost(result.data))
     }
 
   }

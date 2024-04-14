@@ -13,7 +13,7 @@ import DefaultModal from "../modal/DefaultModal";
 
 import usePostStore from '@/store/postStore';
 
-import { GET_post } from '@/http/fetchApi/postApi';
+import { GET_post, PATCH_post } from '@/http/fetchApi/postApi';
 import FormPost from '../form/FormPost';
 interface EditShowTypeProps {
   id: string;
@@ -32,7 +32,7 @@ const ListPosts = () => {
   })
   const [showEditModal, setShowEditModal] = useState(false)
 
-  const { postList, setPostList } = usePostStore();
+  const { postList, setPostList, updatePostItem } = usePostStore();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -47,13 +47,12 @@ const ListPosts = () => {
 
   const onSwitchShowType = (changeData: EditShowTypeProps) => {
     let confirmAnswer = confirm("Are you sure to change the show type?")
-
     if (!!confirmAnswer) {
-      // PATCH_productType(changeData.id, {
-      //   isPresented: changeData.isPresented
-      // }).then((_) =>
-      //   updateProductTypeItem({ id: changeData.id, isPresented: changeData.isPresented })
-      // )
+      PATCH_post(changeData.id, {
+        isPresented: changeData.isPresented
+      }).then((_) =>
+        updatePostItem({ id: changeData.id, isPresented: changeData.isPresented })
+      )
     }
   }
   return (
