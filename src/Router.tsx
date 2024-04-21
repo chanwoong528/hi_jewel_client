@@ -7,6 +7,7 @@ import PageContact from './page/PageContact'
 import PageProduct from './page/PageProduct'
 import PageLogin from './page/PageLogin'
 import PageAdmin from './page/PageAdmin'
+import PagePostDetail from './page/PagePostDetail'
 
 import { PAGE_LABEL, PAGE_LIST } from './utils/CONSTANT'
 
@@ -20,8 +21,10 @@ const ROUTE_LIST = {
   [PAGE_LABEL.contact]: <PageContact />,
   [PAGE_LABEL.about]: <PageAbout />,
   [PAGE_LABEL.product]: <PageProduct />,
+  [PAGE_LABEL.post]: <PagePostDetail />,
   [PAGE_LABEL.admin]: <PageAdmin />,
   [PAGE_LABEL.login]: <PageLogin />,
+
 }
 
 const Router = () => {

@@ -51,7 +51,7 @@ const Navbar = () => {
             <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
             <NavigationMenuContent className="list-none">
 
-              {PAGE_LIST.filter(page => !page.adminRequired).map((page) => {
+              {PAGE_LIST.filter(page => !page.adminRequired && !!page.show).map((page) => {
                 return <li key={"nav-" + page.label}>
                   <Button asChild variant="ghost">
                     <Link to={page.url}>{page.label}</Link>
@@ -79,7 +79,7 @@ const Navbar = () => {
       </Button>
       <ul>
 
-        {PAGE_LIST.filter(page => !page.adminRequired && page.loginRequired).map((page) => {
+        {PAGE_LIST.filter(page => !page.adminRequired && page.loginRequired && !!page.show).map((page) => {
           return <li key={"nav-" + page.label}>
             <Button asChild variant="ghost">
               <Link to={page.url}>{page.label}</Link>

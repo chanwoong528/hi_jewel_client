@@ -7,7 +7,7 @@ export enum PostType {
 }
 
 interface PostParam {
-  title: string;
+  title?: string;
   content: string;
   type: PostType;
   userEmail: string;
@@ -21,10 +21,14 @@ interface PostEditParam {
 
 export const GET_post = async (postId?: string, getType?: string) => {
   try {
-    const fetchPost = await http.get(`/post${postId ? `/${postId}` : ""}`, {
-      params: { getType: "user" },
+    const fetchPost = await http.get(`/post`, {
+      params: {
+        ...(!!getType && { getType: getType }),
+        ...(!!postId && { postId: postId }),
+      },
     });
     const data = await fetchPost.data;
+    console.log(data);
     return data;
   } catch (error) {
     console.warn(error);
