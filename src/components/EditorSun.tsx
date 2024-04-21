@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import SunEditor from 'suneditor-react';
 import SunEditorCore from "suneditor/src/lib/core";
 

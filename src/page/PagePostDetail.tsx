@@ -1,9 +1,10 @@
-import FormComment from '@/components/form/FormComment';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { GET_post } from '@/http/fetchApi/postApi';
-import { Post } from '@/store/postStore';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
+import FormComment from '@/components/form/FormComment';
+import { Card, CardContent, CardDescription, CardHeader, } from '@/components/ui/card';
+import { GET_post } from '@/http/fetchApi/postApi';
+
+
 
 
 
@@ -53,7 +54,7 @@ const PagePostDetail = () => {
       {/* comment list */}
       <ul className=' grid gap-4'>{
         postContent.comments.length > 0 ?
-          postContent.comments.map((comment: Post) => {
+          postContent.comments.map((comment: any) => {
             return (
               <li key={comment.id} >
                 <Card className="relative" >
