@@ -14,7 +14,7 @@ const OFFICE_ADDRESS = [
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className="px-[20px]">
       <ul>
         {OFFICE_ADDRESS.map((office) => {
           return (<li key={office.label}>

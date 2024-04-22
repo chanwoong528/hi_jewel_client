@@ -19,6 +19,8 @@ import { GET_user } from "@/http/fetchApi/userApi";
 
 import { useLocation } from "react-router-dom";
 
+import logo from "../assets/image/logo.png"
+
 const Navbar = () => {
   let location = useLocation();
   const navigation = useNavigate();
@@ -42,7 +44,7 @@ const Navbar = () => {
 
   if (isMobileOnly) {
     return (
-      <NavigationMenu className="justify-between max-w-full">
+      <NavigationMenu className="justify-between max-w-full ">
         <Button asChild variant="ghost">
           <Link to={"/"}>HI Jewel</Link>
         </Button>
@@ -73,9 +75,16 @@ const Navbar = () => {
 
 
   return (
-    <nav className="max-w-[1200px]">
-      <Button asChild variant="ghost">
-        <Link to={"/"}>HI Jewel</Link>
+    <nav className="max-w-[1240px] px-2">
+      <Button
+        asChild variant="ghost">
+        <Link to={"/"}>
+          <img
+            className="max-w-40"
+            src={logo} alt="HI_JEWEL"
+          />
+
+        </Link>
       </Button>
       <ul>
 

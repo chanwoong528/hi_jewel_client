@@ -64,7 +64,7 @@ const ListProductType = ({ type = "admin", }) => {
   if (type === "admin") {
     return (
       <>
-        <Table className='w-full'>
+        <Table className='w-full '>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[150px]">Id</TableHead>

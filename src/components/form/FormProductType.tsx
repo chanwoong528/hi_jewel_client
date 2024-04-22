@@ -151,7 +151,7 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
                 {curData?.imgSrc ?
                   (<>
                     Current image
-                    <img src={curImgSrc} />
+                    <img className="max-w-[200px]" src={curImgSrc} />
                   </>)
                   : "Image of picture"}
               </FormDescription>

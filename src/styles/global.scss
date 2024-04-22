@@ -74,20 +74,20 @@
     @apply bg-background text-foreground;
   }
 }
-// .mobile-wrap {
-//   padding: 0 20px;
-// }
+
 .wrap {
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1240px;
 }
 .page {
   padding: 0 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  // align-items: center;
   width: 100%;
-  min-height: 70vh;
-  // justify-content: center;
+  max-width: 1240px;
+  // min-height: 70vh;
   .card-wrap {
     width: 100%;
     max-width: 600px;
@@ -98,7 +98,8 @@
   width: 1200px;
   height: 685px;
   margin: 0 auto;
-  > img {
+
+  img {
     width: 100%;
   }
 }

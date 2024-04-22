@@ -8,6 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Switch } from "../ui/switch";
 
 import { GET_Product, PATCH_product } from "@/http/fetchApi/productApi";
@@ -23,7 +31,7 @@ interface EditShowTypeProps {
   isPresented: "0" | "1";
 }
 
-const ListProduct = () => {
+const ListProduct = ({ type = "admin", curTab = "" }) => {
   const [showEditModal, setShowEditModal] = useState(false)
   const [curRowData, setCurRowData] = useState({
     id: "",
@@ -56,78 +64,108 @@ const ListProduct = () => {
     }
   }
 
+  if (type === "admin") {
+    return (
+      <>
+        <Table className='w-full'>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[150px]">Id</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Image</TableHead>
+              <TableHead className="w-[150px]">Show Type</TableHead>
+              <TableHead className="w-[150px]">Edit</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {
+              productList.map((product, idx: number) => {
+                return (
+                  <TableRow key={product.id}>
+                    <TableCell>{idx + 1}</TableCell>
+                    <TableCell>{getProductTypeById(product.typeId)?.label}</TableCell>
+                    <TableCell>{product.title}</TableCell>
+                    <TableCell>{product.description}</TableCell>
+                    <TableCell className="w-[400px] bg-slate-600">
+                      <img src={product.imgSrc} alt="" />
+                    </TableCell>
+                    <TableCell>
+                      <Switch
+                        checked={product.isPresented === "1" ? true : false}
+                        onCheckedChange={() =>
+                          onSwitchShowType({
+                            id: product.id,
+                            isPresented: product.isPresented === "1" ? "0" : "1"
+                          })}
+                      >
+                        {product.isPresented}
+                      </Switch>
+                    </TableCell>
+                    <TableCell>
+                      <Button onClick={() => {
+                        setCurRowData({
+                          id: product.id,
+                          title: product.title,
+                          description: product.description,
+                          imgSrc: product.imgSrc,
+                          productType: product.typeId,
+                        })
+                        setShowEditModal(true)
+                      }}>
+                        Edit: {product.title}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+            }
+          </TableBody>
+        </Table>
+        {/* {edit modal} */}
+        <DefaultModal
+          dialogTitle={"Edit Image"}
+          conditionalProps={{ open: showEditModal, onOpenChange: setShowEditModal }}
+        >
+          <FormProduct
+            curData={curRowData}
+          />
+        </DefaultModal >
+        {/* {edit modal} */}
+      </>
+    )
+  }
 
 
   return (
-    <>
-      <Table className='w-full'>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[150px]">Id</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead className="w-[150px]">Show Type</TableHead>
-            <TableHead className="w-[150px]">Edit</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {
-            productList.map((product, idx: number) => {
-              return (
-                <TableRow key={product.id}>
-                  <TableCell>{idx + 1}</TableCell>
-                  <TableCell>{getProductTypeById(product.typeId)?.label}</TableCell>
-                  <TableCell>{product.title}</TableCell>
-                  <TableCell>{product.description}</TableCell>
-                  <TableCell className="w-[400px] bg-slate-600">
-                    <img src={product.imgSrc} alt="" />
-                  </TableCell>
-                  <TableCell>
-                    <Switch
-                      checked={product.isPresented === "1" ? true : false}
-                      onCheckedChange={() =>
-                        onSwitchShowType({
-                          id: product.id,
-                          isPresented: product.isPresented === "1" ? "0" : "1"
-                        })}
-                    >
-                      {product.isPresented}
-                    </Switch>
-                  </TableCell>
-                  <TableCell>
-                    <Button onClick={() => {
-                      setCurRowData({
-                        id: product.id,
-                        title: product.title,
-                        description: product.description,
-                        imgSrc: product.imgSrc,
-                        productType: product.typeId,
-                      })
-                      setShowEditModal(true)
-                    }}>
-                      Edit: {product.title}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              )
-            })
-          }
-        </TableBody>
-      </Table>
-      {/* {edit modal} */}
-      <DefaultModal
-        dialogTitle={"Edit Image"}
-        conditionalProps={{ open: showEditModal, onOpenChange: setShowEditModal }}
-      >
-        <FormProduct
-          curData={curRowData}
-        />
-      </DefaultModal >
-      {/* {edit modal} */}
-    </>
-  )
+    <div className="flex flex-wrap gap-2 justify-between mt-14">
+      {
+        productList
+          .filter(item => item.isPresented === "1")
+          .filter(item => {
+            const productTypeLabel = getProductTypeById(item.typeId)?.label;
+            return productTypeLabel === curTab || curTab === "";
+          })
+          .map((product) => {
+            return (
+              <Card className="w-[200px] h-[200px] relative" key={product.id}>
+                <CardHeader className="flex justify-between w-full h-full absolute z-10" >
+                  <CardTitle>{product.title}</CardTitle>
+                  <CardDescription>{product.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="absolute top-0 left-0 p-0 z-0 opacity-50">
+                  <img src={product.imgSrc} alt="" />
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                </CardFooter>
+              </Card>
+            )
+          })
+      }
+    </div>)
+
+
 }
 
 export default ListProduct
