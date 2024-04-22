@@ -41,6 +41,7 @@ const ListProductType = ({ type = "admin", }) => {
   })
 
   const { productTypeList, setProductTypeList, updateProductTypeItem } = useProductTypeStore();
+
   useEffect(() => {
     const fetchProductType = async () => {
       const response = await GET_productType();
