@@ -53,7 +53,7 @@ const FormComment = ({ parentId }: { parentId: string }) => {
       type: PostType.comment,
       parentPostId: parentId
     }
-    return POST_post(postParam).then((result) => {
+    return POST_post(postParam).then((_) => {
 
     })
   }

@@ -24,7 +24,7 @@ import logo from "../assets/image/logo.png"
 const Navbar = () => {
   let location = useLocation();
   const navigation = useNavigate();
-  const { userInfo, updateUser, resetUser } = useUserStore();
+  const { updateUser, resetUser } = useUserStore();
 
   useEffect(() => {
     const fetchGetUser = () => {

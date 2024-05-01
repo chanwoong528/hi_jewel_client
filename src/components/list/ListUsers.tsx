@@ -44,7 +44,7 @@ const ListUsers = () => {
   const onChangeUserRole = (val: "admin" | "user", id: string) => {
     const confirmRoleChange = confirm("wish to change role?")
     if (confirmRoleChange) {
-      PATCH_userRole(id, val).then((result) => {
+      PATCH_userRole(id, val).then((_) => {
 
       })
     }
