@@ -47,23 +47,16 @@ const FormComment = ({ parentId }: { parentId: string }) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
 
-
-
     const postParam = {
       userEmail: values.userEmail,
       content: values.content,
       type: PostType.comment,
       parentPostId: parentId
     }
-    console.log(postParam)
     return POST_post(postParam).then((result) => {
-      console.log(result)
+
     })
-
   }
-
-
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}

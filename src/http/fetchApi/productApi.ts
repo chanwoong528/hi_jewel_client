@@ -121,7 +121,6 @@ export const PATCH_product = async (id: string, product: ProductEditParam) => {
       },
     });
     const data = await patchProduct.data;
-    console.log(">>> ", data);
     return data;
   } catch (error) {
     console.warn(error);

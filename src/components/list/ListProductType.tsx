@@ -24,6 +24,7 @@ import DefaultModal from "../modal/DefaultModal";
 import FormProductType from "../form/FormProductType";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
+import { useNavigate } from "react-router-dom";
 
 
 interface EditShowTypeProps {
@@ -41,7 +42,7 @@ const ListProductType = ({ type = "admin", }) => {
   })
 
   const { productTypeList, setProductTypeList, updateProductTypeItem } = useProductTypeStore();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchProductType = async () => {
       const response = await GET_productType();
@@ -132,14 +133,21 @@ const ListProductType = ({ type = "admin", }) => {
     )
   }
 
+  const onClickProductType = (productTypeName: string) => {
+    navigate("/product", { state: { tab: productTypeName } })
+  }
   return (
-    <div className="flex flex-wrap gap-2 justify-between mt-14">
+    <div className="grid grid-cols-2 md:grid-cols-3 md:mt-14 mt-4 gap-4 justify-between"    >
       {
         productTypeList
           .filter(item => item.isPresented === "1")
           .map((productType) => {
             return (
-              <Card className="w-[350px] h-[350px] relative" key={productType.id}>
+              <Card
+                className="flex justify-center align-middle w-full max-w-[400px] aspect-square relative cursor-pointer"
+                key={productType.id}
+                onClick={() => onClickProductType(productType.label)}
+              >
                 <CardHeader className="flex justify-between w-full h-full absolute z-10" >
                   <CardTitle>{productType.label}</CardTitle>
                   <CardDescription>{productType.description}</CardDescription>

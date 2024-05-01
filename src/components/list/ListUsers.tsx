@@ -45,7 +45,7 @@ const ListUsers = () => {
     const confirmRoleChange = confirm("wish to change role?")
     if (confirmRoleChange) {
       PATCH_userRole(id, val).then((result) => {
-        console.log(result)
+
       })
     }
   }

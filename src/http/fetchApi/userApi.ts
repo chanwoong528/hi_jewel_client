@@ -32,6 +32,7 @@ export const POST_loginUser = async (
     });
     const data = await fetchLoginUser.data;
     localStorage.setItem("accessToken", data.data.access_token);
+    localStorage.setItem("refreshToken", data.data.refresh_token);
     return data;
   } catch (error) {
     console.warn(error);

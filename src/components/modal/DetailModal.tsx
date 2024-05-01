@@ -6,13 +6,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Button } from '../ui/button'
+
 
 interface DefaultModalProps {
   children: React.ReactNode
+  headerChild: React.ReactNode
 
   dialogTitle: string
-  triggerTitle?: string
   conditionalProps?: conditionalProps
 }
 interface conditionalProps {
@@ -20,10 +20,10 @@ interface conditionalProps {
   onOpenChange?: (open: boolean) => void
 };
 
-const DefaultModal = ({
+const DetailModal = ({
   children,
+  headerChild,
   dialogTitle,
-  triggerTitle,
   conditionalProps
 }: DefaultModalProps) => {
 
@@ -31,11 +31,11 @@ const DefaultModal = ({
     <Dialog
       {...conditionalProps}
     >
-      {!!triggerTitle ?
-        (<DialogTrigger asChild>
-          <Button className='max-w-[250px] my-2 bg-slate-700'>{triggerTitle}</Button>
-        </DialogTrigger>)
-        : null}
+
+      <DialogTrigger asChild>
+        {headerChild}
+      </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
@@ -46,4 +46,4 @@ const DefaultModal = ({
   )
 }
 
-export default DefaultModal
+export default DetailModal

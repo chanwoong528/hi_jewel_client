@@ -17,12 +17,14 @@ const PageAdmin = () => {
   return (
     <main className="page">
       <Tabs defaultValue="type-list" >
-        <TabsList>
-          <TabsTrigger value="type-list">Category Manager</TabsTrigger>
-          <TabsTrigger value="item-list">Uploaded Item</TabsTrigger>
-          <TabsTrigger value="post-list">Manage Post</TabsTrigger>
-          <TabsTrigger value="user-list">User List</TabsTrigger>
-        </TabsList>
+        <div className="w-full overflow-x-auto">
+          <TabsList >
+            <TabsTrigger value="type-list">Category Manager</TabsTrigger>
+            <TabsTrigger value="item-list">Uploaded Item</TabsTrigger>
+            <TabsTrigger value="post-list">Manage Post</TabsTrigger>
+            <TabsTrigger value="user-list">User List</TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="type-list">
           <header>
@@ -57,7 +59,7 @@ const PageAdmin = () => {
             dialogTitle={"Upload Notice"}
             triggerTitle={"Add New Notice"}
           >
-            <FormPost />
+            <FormPost curData={{}} type="" />
           </DefaultModal>
           <ListPosts />
 

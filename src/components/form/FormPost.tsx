@@ -20,10 +20,6 @@ import { POST_post, PostType } from "@/http/fetchApi/postApi"
 import usePostStore from "@/store/postStore"
 import useUserStore from "@/store/userStore"
 
-interface FormPostProps {
-  curData?: EditPostData
-}
-
 interface EditPostData {
   id?: string;
   title?: string;
@@ -34,7 +30,8 @@ interface EditPostData {
 }
 
 
-const FormPost = ({ curData }: FormPostProps) => {
+const FormPost = (
+  { curData, type = "" }: { curData: EditPostData, type: string | undefined }) => {
 
   const { addPost } = usePostStore();
   const { userInfo } = useUserStore()
@@ -46,6 +43,9 @@ const FormPost = ({ curData }: FormPostProps) => {
       }),
       content: z.string().min(2, {
         message: "Description must be at least 2 characters.",
+      }),
+      contactEmail: z.string().email({
+        message: "Must be a valid email.",
       }),
     } : {
       postTitle: z.string().min(2, {
@@ -76,13 +76,14 @@ const FormPost = ({ curData }: FormPostProps) => {
 
     } else {
       //create
-      if (!userInfo.userEmail) return alert("Please login");
+      // if (!userInfo.userEmail) return alert("Please login");
 
       const postParam = {
         title: values.postTitle,
         content: values.content,
-        type: PostType.notice,
-        userEmail: userInfo.userEmail
+        type: type === "user" ? PostType.qna : PostType.notice,
+        isPresented: type === "user" ? "1" : "0",
+        userEmail: userInfo.userEmail ? userInfo.userEmail : values.contactEmail,
       }
       return POST_post(postParam).then((result) => addPost(result.data))
     }
@@ -94,22 +95,36 @@ const FormPost = ({ curData }: FormPostProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="postTitle"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Title</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                Title of Post
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex gap-3">
+          <FormField
+            control={form.control}
+            name="postTitle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Post Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {type === "user" &&
+            (<FormField
+              control={form.control}
+              name="contactEmail"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contact Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="example@exmaple.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />)
+          }
+        </div>
         <FormField
           control={form.control}
           name="content"

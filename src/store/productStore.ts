@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Product = {
+export type Product = {
   id: string;
   title: string;
   description: string;

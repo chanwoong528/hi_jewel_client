@@ -147,7 +147,7 @@ const ListPosts = ({ type = "" }) => {
         conditionalProps={{ open: showEditModal, onOpenChange: setShowEditModal }
         }
       >
-        <FormPost curData={curRowData} />
+        <FormPost curData={curRowData} type="" />
       </DefaultModal >
     </>
   )

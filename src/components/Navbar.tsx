@@ -44,9 +44,14 @@ const Navbar = () => {
 
   if (isMobileOnly) {
     return (
-      <NavigationMenu className="justify-between max-w-full ">
+      <NavigationMenu className="justify-between max-w-full py-2 z-50 border-b-2 border-gray-400">
         <Button asChild variant="ghost">
-          <Link to={"/"}>HI Jewel</Link>
+          <Link to={"/"}>
+            <img
+              className="max-w-40"
+              src={logo} alt="HI_JEWEL"
+            />
+          </Link>
         </Button>
         <NavigationMenuList >
           <NavigationMenuItem >
@@ -55,18 +60,18 @@ const Navbar = () => {
 
               {PAGE_LIST.filter(page => !page.adminRequired && !!page.show).map((page) => {
                 return <li key={"nav-" + page.label}>
-                  <Button asChild variant="ghost">
+                  <Button variant="ghost">
                     <Link to={page.url}>{page.label}</Link>
                   </Button>
                 </li>
               })}
-              {
+              {/* {
                 userInfo.userRole === "admin" ? <li>
                   <Button asChild variant="ghost">
                     <Link to={"/admin"}>Admin</Link>
                   </Button>
                 </li> : null
-              }
+              } */}
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -75,7 +80,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className="max-w-[1240px] px-2">
+    <nav className="max-w-[1240px] px-2 py-4 mb-4 border-b-2 border-gray-400">
       <Button
         asChild variant="ghost">
         <Link to={"/"}>
@@ -95,20 +100,20 @@ const Navbar = () => {
             </Button>
           </li>
         })}
-        {
+        {/* {
           !!(userInfo.userRole === "admin") ? <li>
             <Button asChild variant="ghost">
               <Link to={"/admin"}>ADMIN</Link>
             </Button>
           </li> : null
-        }
-        {
+        } */}
+        {/* {
           !userInfo.userId ? <li>
             <Button asChild variant="ghost">
               <Link to={"/login"}>LOGIN</Link>
             </Button>
           </li> : null
-        }
+        } */}
       </ul>
     </nav>
   )

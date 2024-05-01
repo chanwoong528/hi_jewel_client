@@ -20,13 +20,17 @@ const PagePostDetail = () => {
       createdAt: ""
     },
     comments: []
-
   });
 
   useEffect(() => {
     const fetchSinglePost = async () => {
       const response = await GET_post(location.state.postId);
-      setPostContent(response.data);
+
+      setPostContent({
+        ...response.data,
+        comments: response.data.comments
+          .filter((comments: { id: string; }) => comments.id !== location.state.postId)
+      });
     }
     fetchSinglePost();
   }, [location.state.postId])

@@ -18,12 +18,13 @@ import {
 } from "@/components/ui/card"
 import { Switch } from "../ui/switch";
 
-import { GET_Product, PATCH_product } from "@/http/fetchApi/productApi";
+import { GET_Product, GET_productType, PATCH_product } from "@/http/fetchApi/productApi";
 import useProductStore from "@/store/productStore";
 import useProductTypeStore from "@/store/productTypeStore";
 import DefaultModal from "../modal/DefaultModal";
 import FormProduct from "../form/FormProduct";
 import { Button } from "../ui/button";
+import DetailModal from "../modal/DetailModal";
 
 
 interface EditShowTypeProps {
@@ -42,10 +43,14 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
   })
 
   const { productList, setProductList, updateProductItem } = useProductStore();
-  const { getProductTypeById } = useProductTypeStore();
+  const { getProductTypeById, productTypeList, setProductTypeList } = useProductTypeStore();
 
   useEffect(() => {
     const fetchProductType = async () => {
+      if (productTypeList.length < 1) {
+        const response = await GET_productType();
+        setProductTypeList(response.data);
+      }
       const response = await GET_Product();
       setProductList(response.data);
     }
@@ -137,9 +142,8 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
     )
   }
 
-
   return (
-    <div className="flex flex-wrap gap-2 justify-between mt-14">
+    <div className="flex flex-wrap  justify-between md:mt-14 mt-4  md:gap-2 gap-1" >
       {
         productList
           .filter(item => item.isPresented === "1")
@@ -149,17 +153,27 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
           })
           .map((product) => {
             return (
-              <Card className="w-[200px] h-[200px] relative" key={product.id}>
-                <CardHeader className="flex justify-between w-full h-full absolute z-10" >
-                  <CardTitle>{product.title}</CardTitle>
-                  <CardDescription>{product.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="absolute top-0 left-0 p-0 z-0 opacity-50">
-                  <img src={product.imgSrc} alt="" />
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                </CardFooter>
-              </Card>
+              <DetailModal
+              
+                key={product.id}
+                headerChild={
+                  <Card className="w-full max-w-[150px] aspect-square relative cursor-pointer">
+                    <CardHeader className="flex justify-between w-full h-full absolute z-10" >
+                      <CardTitle>{product.title}</CardTitle>
+                      <CardDescription>{product.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="absolute top-0 left-0 p-0 z-0 opacity-50">
+                      <img src={product.imgSrc} alt="" />
+                    </CardContent>
+                    <CardFooter className="flex justify-between">
+                    </CardFooter>
+                  </Card>
+                }
+                dialogTitle={product.title}
+              >
+                <img src={product.imgSrc} />
+                <p>{product.description}</p>
+              </DetailModal>
             )
           })
       }

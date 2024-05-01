@@ -20,15 +20,32 @@ http.interceptors.request.use((config) => {
   return config;
 });
 
-// export const setHttpHeaderToken = (token: string) => {
-//   http.interceptors.request.use((config) => {
-//     config.headers.Authorization = `Bearer ${token}`;
-//     return config;
-//   });
-// };
+http.interceptors.response.use(
+  async (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 498) {
+      const refToken = localStorage.getItem("refreshToken");
 
-// export function getCookie(name: string) {
-//   const value = `; ${document.cookie}`;
-//   const parts = value.split(`; ${name}=`);
-//   if (parts.length === 2) return parts.pop().split(";").shift();
-// }
+      const res = await axios.post(
+        `${DEV_BASE_RESTAPI}/user/generate-access-token`,
+        {
+          refreshToken: refToken,
+        }
+      );
+      if (res.data.code === 201) {
+        localStorage.setItem("accessToken", res.data.data["access_token"]);
+        originalRequest.headers[
+          "authorization"
+        ] = `Bearer ${res.data.data["access_token"]}`;
+        http.defaults.headers.common[
+          "authorization"
+        ] = `Bearer ${res.data.data["access_token"]}`;
+        return axios(originalRequest);
+      }
+    }
+    return Promise.reject(error);
+  }
+);

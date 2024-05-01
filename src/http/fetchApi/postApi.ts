@@ -28,7 +28,7 @@ export const GET_post = async (postId?: string, getType?: string) => {
       },
     });
     const data = await fetchPost.data;
-    console.log(data);
+
     return data;
   } catch (error) {
     console.warn(error);

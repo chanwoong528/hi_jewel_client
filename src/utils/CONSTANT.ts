@@ -1,7 +1,7 @@
 export const PAGE_LABEL = {
   home: "HOME",
-  about: "FACTORY",
-  company: "COMPANY",
+  about: "ABOUT",
+  company: "FACTORY",
   product: "PRODUCT",
   contact: "CONTACT",
   post: "POST",
@@ -11,13 +11,14 @@ export const PAGE_LABEL = {
 
 export const PAGE_LIST = [
   { url: "/", label: PAGE_LABEL.home, loginRequired: true, show: true },
+
+  { url: "/about", label: PAGE_LABEL.about, loginRequired: true, show: true },
   {
     url: "/company",
     label: PAGE_LABEL.company,
     loginRequired: true,
     show: true,
   },
-  { url: "/about", label: PAGE_LABEL.about, loginRequired: true, show: true },
   {
     url: "/product",
     label: PAGE_LABEL.product,
@@ -36,13 +37,13 @@ export const PAGE_LIST = [
     loginRequired: true,
     show: false,
   },
-  { url: "/login", label: PAGE_LABEL.login, loginRequired: false, show: true },
+  { url: "/login", label: PAGE_LABEL.login, loginRequired: false, show: false },
   {
     url: "/admin",
     label: PAGE_LABEL.admin,
     loginRequired: true,
     adminRequired: true,
-    show: true,
+    show: false,
   },
 ];
 

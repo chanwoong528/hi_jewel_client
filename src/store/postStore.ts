@@ -34,7 +34,7 @@ const usePostStore = create<PostState>((set) => ({
   postList: [],
   setPostList: (postList) =>
     set(() => ({
-      postList: postList,
+      postList: postList.sort((a, b) => (a.type > b.type ? -1 : 1)),
     })),
   addPost: (post) => set((state) => ({ postList: [...state.postList, post] })),
   updatePostItem: (post) => {
