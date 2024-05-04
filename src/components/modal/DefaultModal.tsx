@@ -28,15 +28,13 @@ const DefaultModal = ({
 }: DefaultModalProps) => {
 
   return (
-    <Dialog
-      {...conditionalProps}
-    >
+    <Dialog {...conditionalProps} >
       {!!triggerTitle ?
         (<DialogTrigger asChild>
           <Button className='max-w-[250px] my-2 bg-slate-700'>{triggerTitle}</Button>
         </DialogTrigger>)
         : null}
-      <DialogContent>
+      <DialogContent className="overflow-y-scroll max-h-screen">
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
           {children}

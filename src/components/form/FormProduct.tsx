@@ -118,7 +118,7 @@ const FormProduct = ({ curData }: FormProductProps) => {
 
 
   return (
-    <Form {...form}>
+    <Form  {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
@@ -212,7 +212,7 @@ const FormProduct = ({ curData }: FormProductProps) => {
         />
         <Button type="submit">Submit</Button>
       </form>
-    </Form>
+    </Form >
   )
 }
 

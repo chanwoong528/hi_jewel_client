@@ -7,6 +7,11 @@ const PageContact = () => {
 
   return (
     <main className="page">
+      <header className="flex flex-col text-center my-4">
+        <h2 className="font-medium text-2xl mb-4">CONTACT</h2>
+        <p>If you have any questions, please leave them on our board and we will respond quickly.</p>
+      </header>
+
       <DefaultModal
         dialogTitle={"Leave Inquiry"}
         triggerTitle={"Leave Inquiry"}

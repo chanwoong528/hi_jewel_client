@@ -79,13 +79,13 @@ const ListPosts = ({ type = "" }) => {
       <Table className='w-full'>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[150px]">Id</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Type(QNA | Notice)</TableHead>
-            <TableHead>Author</TableHead>
-            <TableHead>Created At</TableHead>
             {type !== "user" &&
               <>
+                <TableHead className="w-[150px]">Id</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Type(QNA | Notice)</TableHead>
+                <TableHead>Author</TableHead>
+                <TableHead>Created At</TableHead>
                 <TableHead className="w-[150px]">Show Type</TableHead>
                 <TableHead className="w-[150px]">Edit</TableHead>
               </>
@@ -94,7 +94,7 @@ const ListPosts = ({ type = "" }) => {
         </TableHeader>
         <TableBody>
           {
-            postList.map((post, idx: number) => {
+            postList.length > 0 && postList?.map((post, idx: number) => {
               return (
                 <TableRow
                   key={post.id}

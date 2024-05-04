@@ -26,12 +26,12 @@ import { Input } from "../ui/input"
 const FormComment = ({ parentId }: { parentId: string }) => {
   const formSchema = z.object(
     {
-      userEmail: z.string().min(2, {
-        message: "Content must be at least 2 characters.",
-      }),
-      // contact: z.string().email({
-      //   message: "Email must be valid type.",
+      // userEmail: z.string().min(2, {
+      //   message: "Content must be at least 2 characters.",
       // }),
+      userEmail: z.string().email({
+        message: "Email must be valid type.",
+      }),
       content: z.string().min(2, {
         message: "Content must be at least 2 characters.",
       }),
@@ -88,13 +88,10 @@ const FormComment = ({ parentId }: { parentId: string }) => {
           render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Content</FormLabel>
+                <FormLabel>Comment</FormLabel>
                 <FormControl>
                   <Textarea {...field} />
                 </FormControl>
-                <FormDescription>
-                  Title of Post
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )

@@ -146,8 +146,8 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
     <div className="flex flex-wrap  justify-between md:mt-14 mt-4  md:gap-2 gap-1" >
       {
         productList
-          .filter(item => item.isPresented === "1")
-          .filter(item => {
+          ?.filter(item => item.isPresented === "1")
+          ?.filter(item => {
             const productTypeLabel = getProductTypeById(item.typeId)?.label;
             return productTypeLabel === curTab || curTab === "";
           })

@@ -17,7 +17,7 @@ import BannerImg5 from "../assets/image/about/about5.jpg"
 import BannerImg6 from "../assets/image/about/about6.jpg"
 
 import BannerImg7 from "../assets/image/about/about7.jpg"
-import BannerImg8 from "../assets/image/about/about8.jpg"
+// import BannerImg8 from "../assets/image/about/about8.jpg"
 
 
 import MBannerImg1 from "../assets/image/about/aboutm1-min.jpg"
@@ -27,7 +27,7 @@ import MBannerImg4 from "../assets/image/about/aboutm4-min.jpg"
 import MBannerImg5 from "../assets/image/about/aboutm5-min.jpg"
 import MBannerImg6 from "../assets/image/about/aboutm6-min.jpg"
 import MBannerImg7 from "../assets/image/about/aboutm7-min.jpg"
-import MBannerImg8 from "../assets/image/about/aboutm8-min.jpg"
+// import MBannerImg8 from "../assets/image/about/aboutm8-min.jpg"
 
 
 const PageAbout = () => {
@@ -66,9 +66,9 @@ const PageAbout = () => {
             <CarouselItem >
               <img src={MBannerImg7} alt="hi-jewel-about-7" />
             </CarouselItem>
-            <CarouselItem >
+            {/* <CarouselItem >
               <img src={MBannerImg8} alt="hi-jewel-about-8" />
-            </CarouselItem>
+            </CarouselItem> */}
           </CarouselContent>
         </Carousel>
       </main>
@@ -107,9 +107,9 @@ const PageAbout = () => {
             <CarouselItem >
               <img src={BannerImg7} alt="hi-jewel-about-7" />
             </CarouselItem>
-            <CarouselItem >
+            {/* <CarouselItem >
               <img src={BannerImg8} alt="hi-jewel-about-8" />
-            </CarouselItem>
+            </CarouselItem> */}
           </CarouselContent>
         </Carousel>
       </div>

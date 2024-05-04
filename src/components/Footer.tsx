@@ -18,7 +18,7 @@ const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <footer className="px-[20px] flex flex-col text-sm gap-2 mt-10 pt-10 border-t-2 border-gray-400">
+    <footer className="px-[20px] flex flex-col text-sm gap-2 mt-10 py-10 border-t-2 border-gray-400">
       <ul className="flex flex-col gap-1 md:flex-row">
         {OFFICE_ADDRESS.map((office) => {
           return (<li className="flex-1" key={office.label}>

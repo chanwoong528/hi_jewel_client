@@ -106,12 +106,12 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
           name="label"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Product Title</FormLabel>
+              <FormLabel>    Product Category Title</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Product Category" {...field} />
               </FormControl>
               <FormDescription>
-                Title of product
+                Product Category Title
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -124,10 +124,10 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
             <FormItem>
               <FormLabel>description</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Description" {...field} />
               </FormControl>
               <FormDescription>
-                Description of product
+                Description of product Category
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -136,9 +136,10 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
         <FormField
           control={form.control}
           name={curData?.id ? "imgFileEdit" : "imgFile"}
+
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>imgFile</FormLabel>
+            <FormItem >
+              <FormLabel>Image File</FormLabel>
               <FormControl>
                 <Input
                   accept=".jpg, .jpeg, .png, .svg, .gif"

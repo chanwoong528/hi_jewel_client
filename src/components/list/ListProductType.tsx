@@ -140,26 +140,30 @@ const ListProductType = ({ type = "admin", }) => {
     <div className="grid grid-cols-2 md:grid-cols-3 md:mt-14 mt-4 gap-4 justify-between"    >
       {
         productTypeList
-          .filter(item => item.isPresented === "1")
-          ?.map((productType) => {
-            return (
-              <Card
-                className="flex justify-center align-middle w-full max-w-[400px] aspect-square relative cursor-pointer"
-                key={productType.id}
-                onClick={() => onClickProductType(productType.label)}
-              >
-                <CardHeader className="flex justify-between w-full h-full absolute z-10" >
-                  <CardTitle>{productType.label}</CardTitle>
-                  <CardDescription>{productType.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="absolute top-0 left-0 p-0 z-0 opacity-50">
-                  <img src={productType.imgSrc} alt="" />
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                </CardFooter>
-              </Card>
-            )
-          })
+          ?.filter(item => item.isPresented === "1")
+          .length < 1 ?
+          "No product type available. Please add one."
+          : (productTypeList
+            .filter(item => item.isPresented === "1")
+            ?.map((productType) => {
+              return (
+                <Card
+                  className="flex justify-center align-middle w-full max-w-[400px] aspect-square relative cursor-pointer"
+                  key={productType.id}
+                  onClick={() => onClickProductType(productType.label)}
+                >
+                  <CardHeader className="flex justify-between w-full h-full absolute z-10" >
+                    <CardTitle>{productType.label}</CardTitle>
+                    <CardDescription>{productType.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="absolute top-0 left-0 p-0 z-0 opacity-50">
+                    <img src={productType.imgSrc} alt="" />
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                  </CardFooter>
+                </Card>
+              )
+            }))
       }
     </div>)
 
