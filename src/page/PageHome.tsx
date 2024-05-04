@@ -29,13 +29,13 @@ const PageHome = () => {
           }}>
           <CarouselContent>
             <CarouselItem >
-              <img src={BannerImg1} />
+              <img src={BannerImg1} alt="hi-jewel-main-logo" />
             </CarouselItem>
             <CarouselItem >
-              <img src={BannerImg2} />
+              <img src={BannerImg2} alt="hi-jewel-main-logo" />
             </CarouselItem>
             <CarouselItem >
-              <img src={BannerImg3} />
+              <img src={BannerImg3} alt="hi-jewel-main-logo" />
             </CarouselItem>
           </CarouselContent>
         </Carousel>
