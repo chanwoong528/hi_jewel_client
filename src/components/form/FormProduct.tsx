@@ -25,6 +25,7 @@ import useProductTypeStore from "@/store/productTypeStore"
 import { PATCH_product, POST_Product } from "@/http/fetchApi/productApi"
 import useProductStore from "@/store/productStore"
 import { useState } from "react"
+import { Loader2 } from "lucide-react"
 
 interface FormProductProps {
   curData?: EditProductData
@@ -40,6 +41,7 @@ interface EditProductData {
 
 
 const FormProduct = ({ curData }: FormProductProps) => {
+  const [loading, setLoading] = useState(false)
 
   const [curImgSrc, setCurImgSrc] = useState(curData?.imgSrc)
 
@@ -85,6 +87,7 @@ const FormProduct = ({ curData }: FormProductProps) => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true)
     if (curData?.id) {
       //edit
       return PATCH_product(curData.id, {
@@ -103,6 +106,9 @@ const FormProduct = ({ curData }: FormProductProps) => {
           typeId: values.productType,
           ...(!!result.data.imgSrc && { imgSrc: result.data.imgSrc })
         })
+        alert("Product has been updated.");
+      }).finally(() => {
+        setLoading(false)
       })
     } else {
       POST_Product({
@@ -110,7 +116,12 @@ const FormProduct = ({ curData }: FormProductProps) => {
         description: values.description,
         image: values.imgFile,
         typeId: values.productType
-      }).then((result) => addProductItem(result.data))
+      }).then((result) => {
+        addProductItem(result.data);
+        alert("Product has been posted.");
+      }).finally(() => {
+        setLoading(false)
+      })
     }
 
   }
@@ -210,7 +221,16 @@ const FormProduct = ({ curData }: FormProductProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">
+          {!!loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </>)
+            :
+            "Submit"
+          }
+        </Button>
       </form>
     </Form >
   )

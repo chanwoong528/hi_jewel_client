@@ -14,16 +14,18 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { POST_post, PostType } from "@/http/fetchApi/postApi"
-
+import { Loader2 } from "lucide-react"
 
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "../ui/input"
+import { useState } from "react"
 
 
 
 
 
 const FormComment = ({ parentId }: { parentId: string }) => {
+  const [loading, setLoading] = useState(false)
   const formSchema = z.object(
     {
       // userEmail: z.string().min(2, {
@@ -46,7 +48,7 @@ const FormComment = ({ parentId }: { parentId: string }) => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-
+    setLoading(true)
     const postParam = {
       userEmail: values.userEmail,
       content: values.content,
@@ -54,7 +56,9 @@ const FormComment = ({ parentId }: { parentId: string }) => {
       parentPostId: parentId
     }
     return POST_post(postParam).then((_) => {
-
+      alert("Comment has been posted.")
+    }).finally(() => {
+      setLoading(false)
     })
   }
   return (
@@ -98,7 +102,16 @@ const FormComment = ({ parentId }: { parentId: string }) => {
           }}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit">
+          {!!loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </>)
+            :
+            "Submit"
+          }
+        </Button>
       </form>
     </Form>
   )

@@ -72,13 +72,13 @@ const PagePostDetail = () => {
       {/* comment list */}
       <section className='mt-4'>
         <h4>Comments</h4>
-        <ul className='mt-4 grid gap-4'>{
+        <ul className='mt-4 grid gap-4 max-w-[500px]'>{
           postContent.comments.length > 0 ?
             postContent.comments.map((comment: any) => {
               return (
                 <li key={comment.id} >
                   <Card className="relative p-2" >
-                    <CardHeader className='p-0 border-b-2 pb-2 border-b '>
+                    <CardHeader className='p-0 pb-2 border-b '>
                       <CardDescription className='flex justify-between '>
                         <span> {comment.userEmail}</span>
                         <span> {convertToDateString(comment.createdAt)}</span>

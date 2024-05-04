@@ -1,6 +1,6 @@
 
 // import React from 'react'
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import {
@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button"
 import { PATCH_productType, POST_productType } from "@/http/fetchApi/productApi"
 import useProductTypeStore from "@/store/productTypeStore"
 import { useState } from "react"
+import { Loader2 } from "lucide-react"
 
 
 interface FormProductTypeProps {
@@ -32,6 +33,7 @@ interface EditCurData {
 
 const FormProductType = ({ curData }: FormProductTypeProps) => {
   const [curImgSrc, setCurImgSrc] = useState(curData?.imgSrc)
+  const [loading, setLoading] = useState(false)
 
   const { addProductTypeItem, updateProductTypeItem } = useProductTypeStore();
 
@@ -66,7 +68,7 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
     },
   })
   function onSubmit(values: z.infer<typeof formSchema>) {
-
+    setLoading(true)
     if (!!curData?.id) {
       //edit
       return PATCH_productType(curData.id, {
@@ -83,6 +85,9 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
           description: values.description,
           ...(!!result.data.imgSrc && { imgSrc: result.data.imgSrc })
         })
+        alert("Product Category has been updated.")
+      }).finally(() => {
+        setLoading(false)
       })
 
     } else {
@@ -91,9 +96,12 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
         label: values.label,
         description: values.description,
         image: values.imgFile,
-      }).then((result) =>
+      }).then((result) => {
         addProductTypeItem(result.data)
-      );
+        alert("Product Category has been created.");
+      }).finally(() => {
+        setLoading(false)
+      });
     }
   }
 
@@ -160,7 +168,16 @@ const FormProductType = ({ curData }: FormProductTypeProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">
+          {!!loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </>)
+            :
+            "Submit"
+          }
+        </Button>
       </form>
     </Form>
   )

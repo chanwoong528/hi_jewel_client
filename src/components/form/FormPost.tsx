@@ -19,6 +19,8 @@ import { POST_post, PostType } from "@/http/fetchApi/postApi"
 
 import usePostStore from "@/store/postStore"
 import useUserStore from "@/store/userStore"
+import { useState } from "react"
+import { Loader2 } from "lucide-react"
 
 interface EditPostData {
   id?: string;
@@ -32,7 +34,7 @@ interface EditPostData {
 
 const FormPost = (
   { curData, type = "" }: { curData: EditPostData, type: string | undefined }) => {
-
+  const [loading, setLoading] = useState(false)
   const { addPost } = usePostStore();
   const { userInfo } = useUserStore()
 
@@ -68,7 +70,7 @@ const FormPost = (
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-
+    setLoading(true)
     if (curData?.id) {
       //edit
       return
@@ -85,7 +87,13 @@ const FormPost = (
         isPresented: type === "user" ? "1" : "0",
         userEmail: userInfo.userEmail ? userInfo.userEmail : values.contactEmail,
       }
-      return POST_post(postParam).then((result) => addPost(result.data))
+      return POST_post(postParam)
+        .then((result) => {
+          addPost(result.data)
+          alert("Post has been posted.")
+        }).finally(() => {
+          setLoading(false)
+        })
     }
 
   }
@@ -147,8 +155,16 @@ const FormPost = (
           }}
         />
 
-
-        <Button type="submit">Submit</Button>
+        <Button type="submit">
+          {!!loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </>)
+            :
+            "Submit"
+          }
+        </Button>
       </form>
     </Form>
   )
