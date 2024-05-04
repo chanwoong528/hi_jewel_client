@@ -79,7 +79,7 @@ const ListProductType = ({ type = "admin", }) => {
           </TableHeader>
           <TableBody>
             {
-              productTypeList.map((productType, idx: number) => {
+              productTypeList?.map((productType, idx: number) => {
                 return (
                   <TableRow key={productType.id}>
                     <TableCell>{idx + 1}</TableCell>
@@ -141,7 +141,7 @@ const ListProductType = ({ type = "admin", }) => {
       {
         productTypeList
           .filter(item => item.isPresented === "1")
-          .map((productType) => {
+          ?.map((productType) => {
             return (
               <Card
                 className="flex justify-center align-middle w-full max-w-[400px] aspect-square relative cursor-pointer"

@@ -151,10 +151,10 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
             const productTypeLabel = getProductTypeById(item.typeId)?.label;
             return productTypeLabel === curTab || curTab === "";
           })
-          .map((product) => {
+          ?.map((product) => {
             return (
               <DetailModal
-              
+
                 key={product.id}
                 headerChild={
                   <Card className="w-full max-w-[150px] aspect-square relative cursor-pointer">
