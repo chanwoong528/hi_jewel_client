@@ -17,7 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import { GET_productType, PATCH_productType } from "@/http/fetchApi/productApi";
+import { DELETE_productType, GET_productType, PATCH_productType } from "@/http/fetchApi/productApi";
 
 import useProductTypeStore from "@/store/productTypeStore";
 import DefaultModal from "../modal/DefaultModal";
@@ -41,7 +41,7 @@ const ListProductType = ({ type = "admin", }) => {
     imgSrc: "",
   })
 
-  const { productTypeList, setProductTypeList, updateProductTypeItem } = useProductTypeStore();
+  const { productTypeList, setProductTypeList, updateProductTypeItem, deleteProductTypeItem } = useProductTypeStore();
   const navigate = useNavigate();
   useEffect(() => {
     const fetchProductType = async () => {
@@ -62,6 +62,20 @@ const ListProductType = ({ type = "admin", }) => {
       )
     }
   }
+
+  const onClickDeleteProductType = (id: string) => {
+    let confirmAnswer = confirm("Are you sure to delete this product type?")
+    if (!!confirmAnswer) {
+      DELETE_productType(id)
+        .then((_) => deleteProductTypeItem(id))
+        .catch(err => {
+          if (err.response.status === 409) {
+            return alert("This product type is used in product. Please delete related products first.")
+          }
+        })
+    }
+  }
+
 
   if (type === "admin") {
     return (
@@ -100,7 +114,7 @@ const ListProductType = ({ type = "admin", }) => {
                         {productType.isPresented}
                       </Switch>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className='flex gap-1 items-center'>
                       <Button onClick={() => {
                         setCurRowData({
                           id: productType.id,
@@ -110,7 +124,11 @@ const ListProductType = ({ type = "admin", }) => {
                         })
                         setShowEditModal(true)
                       }}>
-                        Edit: {productType.label}
+                        Edit
+                      </Button>
+                      <Button className='bg-red-500 hover:bg-red-800'
+                        onClick={() => onClickDeleteProductType(productType.id)}>
+                        Delete
                       </Button>
                     </TableCell>
                   </TableRow>

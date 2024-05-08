@@ -15,12 +15,13 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 import EditorSun from "../EditorSun"
-import { POST_post, PostType } from "@/http/fetchApi/postApi"
+import { PATCH_post, POST_post, PostType } from "@/http/fetchApi/postApi"
 
 import usePostStore from "@/store/postStore"
 import useUserStore from "@/store/userStore"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
+
 
 interface EditPostData {
   id?: string;
@@ -35,11 +36,11 @@ interface EditPostData {
 const FormPost = (
   { curData, type = "" }: { curData: EditPostData, type: string | undefined }) => {
   const [loading, setLoading] = useState(false)
-  const { addPost } = usePostStore();
+  const { addPost, updatePostItem } = usePostStore();
   const { userInfo } = useUserStore()
 
   const formSchema = z.object(
-    !curData?.id ? {
+    !curData?.id && !userInfo.userEmail ? {
       postTitle: z.string().min(2, {
         message: "Title must be at least 2 characters.",
       }),
@@ -48,6 +49,13 @@ const FormPost = (
       }),
       contactEmail: z.string().email({
         message: "Must be a valid email.",
+      }),
+    } : !!userInfo.userEmail ? {
+      postTitle: z.string().min(2, {
+        message: "Title must be at least 2 characters.",
+      }),
+      content: z.string().min(2, {
+        message: "Description must be at least 2 characters.",
       }),
     } : {
       postTitle: z.string().min(2, {
@@ -73,9 +81,15 @@ const FormPost = (
     setLoading(true)
     if (curData?.id) {
       //edit
-      return
-
-
+      return PATCH_post(curData.id, {
+        title: values.postTitle,
+        content: values.content,
+      }).then((_) => {
+        updatePostItem({ id: curData.id, title: values.postTitle, content: values.content })
+        return alert("Post has been updated.")
+      }).finally(() => {
+        setLoading(false)
+      })
     } else {
       //create
       // if (!userInfo.userEmail) return alert("Please login");

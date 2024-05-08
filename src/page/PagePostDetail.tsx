@@ -74,23 +74,25 @@ const PagePostDetail = () => {
         <h4>Comments</h4>
         <ul className='mt-4 grid gap-4 max-w-[500px]'>{
           postContent.comments.length > 0 ?
-            postContent.comments.map((comment: any) => {
-              return (
-                <li key={comment.id} >
-                  <Card className="relative p-2" >
-                    <CardHeader className='p-0 pb-2 border-b '>
-                      <CardDescription className='flex justify-between '>
-                        <span> {comment.userEmail}</span>
-                        <span> {convertToDateString(comment.createdAt)}</span>
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className='p-0'>
-                      <p dangerouslySetInnerHTML={{ __html: comment.content }} />
-                    </CardContent>
-                  </Card>
-                </li>
-              )
-            }) : null
+            postContent.comments
+              ?.filter((comment: any) => comment.isPresented === "1")
+              .map((comment: any) => {
+                return (
+                  <li key={comment.id} >
+                    <Card className="relative p-2" >
+                      <CardHeader className='p-0 pb-2 border-b '>
+                        <CardDescription className='flex justify-between '>
+                          <span> {comment.userEmail}</span>
+                          <span> {convertToDateString(comment.createdAt)}</span>
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className='p-0'>
+                        <p dangerouslySetInnerHTML={{ __html: comment.content }} />
+                      </CardContent>
+                    </Card>
+                  </li>
+                )
+              }) : null
         }</ul>
       </section>
     </main >

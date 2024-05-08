@@ -78,6 +78,19 @@ export const PATCH_productType = async (
   }
 };
 
+export const DELETE_productType = async (productTypeId: string) => {
+  try {
+    const fetchDeleteProduct = await http.delete(
+      `/product/type/${productTypeId}`
+    );
+    console.log("!!!!!!!!!!!! ", fetchDeleteProduct);
+    return fetchDeleteProduct;
+  } catch (error) {
+    throw error;
+    console.warn(error);
+  }
+};
+
 export const GET_Product = async () => {
   try {
     const fetchProduct = await http.get("/product");
@@ -122,6 +135,17 @@ export const PATCH_product = async (id: string, product: ProductEditParam) => {
     });
     const data = await patchProduct.data;
     return data;
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+export const DELETE_product = async (productId: string) => {
+  try {
+    const fetchDeleteProduct = await http.delete(`/product/${productId}`);
+    console.log(fetchDeleteProduct);
+
+    return fetchDeleteProduct;
   } catch (error) {
     console.warn(error);
   }

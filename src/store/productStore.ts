@@ -25,6 +25,7 @@ interface ProductState {
   addProductItem: (productType: Product) => void;
   updateProductItem: (productType: ProductEditType) => void;
   setProductList: (productType: Product[]) => void;
+  deleteProductItem: (id: string) => void;
 }
 
 const useProductStore = create<ProductState>((set) => ({
@@ -43,6 +44,11 @@ const useProductStore = create<ProductState>((set) => ({
     set(() => ({
       productList: productList,
     })),
+  deleteProductItem: (id) => {
+    set((state) => ({
+      productList: state.productList.filter((item) => item.id !== id),
+    }));
+  },
 }));
 
 export default useProductStore;

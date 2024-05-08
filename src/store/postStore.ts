@@ -28,6 +28,7 @@ interface PostState {
   setPostList: (postList: Post[]) => void;
   addPost: (post: Post) => void;
   updatePostItem: (post: PostEditType) => void;
+  deletePostItem: (id: string) => void;
 }
 
 const usePostStore = create<PostState>((set) => ({
@@ -42,6 +43,13 @@ const usePostStore = create<PostState>((set) => ({
       postList: state.postList.map((item) =>
         item.id === post.id ? { ...item, ...post } : item
       ),
+    }));
+  },
+  deletePostItem: (id) => {
+    set((state) => ({
+      postList: state.postList
+        .filter((item) => item.id !== id)
+        .filter((item) => item.parentPostId !== id),
     }));
   },
 }));

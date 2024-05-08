@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/card"
 import { Switch } from "../ui/switch";
 
-import { GET_Product, GET_productType, PATCH_product } from "@/http/fetchApi/productApi";
+import { DELETE_product, GET_Product, GET_productType, PATCH_product } from "@/http/fetchApi/productApi";
 import useProductStore from "@/store/productStore";
 import useProductTypeStore from "@/store/productTypeStore";
 import DefaultModal from "../modal/DefaultModal";
@@ -42,7 +42,7 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
     productType: "",
   })
 
-  const { productList, setProductList, updateProductItem } = useProductStore();
+  const { productList, setProductList, updateProductItem, deleteProductItem } = useProductStore();
   const { getProductTypeById, productTypeList, setProductTypeList } = useProductTypeStore();
 
   useEffect(() => {
@@ -69,6 +69,15 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
     }
   }
 
+  const onClickDeleteProduct = (id: string) => {
+    let confirmAnswer = confirm("Are you sure to delete this product?")
+    if (!!confirmAnswer) {
+      DELETE_product(id).then((_) => deleteProductItem(id))
+    }
+  }
+
+
+
   if (type === "admin") {
     return (
       <>
@@ -93,7 +102,7 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
                     <TableCell>{getProductTypeById(product.typeId)?.label}</TableCell>
                     <TableCell>{product.title}</TableCell>
                     <TableCell>{product.description}</TableCell>
-                    <TableCell className="w-[400px] bg-slate-600">
+                    <TableCell className="w-[150px] bg-slate-600">
                       <img src={product.imgSrc} alt="" />
                     </TableCell>
                     <TableCell>
@@ -108,7 +117,7 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
                         {product.isPresented}
                       </Switch>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className='flex gap-1'>
                       <Button onClick={() => {
                         setCurRowData({
                           id: product.id,
@@ -119,7 +128,11 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
                         })
                         setShowEditModal(true)
                       }}>
-                        Edit: {product.title}
+                        Edit
+                      </Button>
+                      <Button className='bg-red-500 hover:bg-red-800'
+                        onClick={() => onClickDeleteProduct(product.id)}>
+                        Delete
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -157,8 +170,8 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
 
                 key={product.id}
                 headerChild={
-                  <Card className="w-full max-w-[150px] aspect-square relative cursor-pointer">
-                    <CardHeader className="flex justify-between w-full h-full absolute z-10" >
+                  <Card className="w-full max-w-[150px] aspect-square relative cursor-pointer overflow-hidden">
+                    <CardHeader className="flex justify-between w-full h-full absolute z-10 p-2 " >
                       <CardTitle>{product.title}</CardTitle>
                       <CardDescription>{product.description}</CardDescription>
                     </CardHeader>

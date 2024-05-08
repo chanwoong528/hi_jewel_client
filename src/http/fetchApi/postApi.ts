@@ -49,10 +49,23 @@ export const PATCH_post = async (
   postId: string,
   postEditData: PostEditParam
 ) => {
+  console.log(postId, postEditData);
+
   try {
     const fetchPatchPost = await http.patch(`/post/${postId}`, postEditData);
     const data = await fetchPatchPost.data;
     return data;
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+export const DELETE_post = async (postId: string) => {
+  try {
+    const fetchDeletePost = await http.delete(`/post/${postId}`);
+    console.log(fetchDeletePost);
+
+    return fetchDeletePost;
   } catch (error) {
     console.warn(error);
   }

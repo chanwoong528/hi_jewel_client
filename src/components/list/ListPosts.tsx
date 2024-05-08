@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import DefaultModal from "../modal/DefaultModal";
 import usePostStore from '@/store/postStore';
 
-import { GET_post, PATCH_post, PostType } from '@/http/fetchApi/postApi';
+import { DELETE_post, GET_post, PATCH_post, PostType } from '@/http/fetchApi/postApi';
 import FormPost from '../form/FormPost';
 interface EditShowTypeProps {
   id: string;
@@ -31,7 +31,7 @@ const ListPosts = ({ type = "" }) => {
     isPresented: "",
   })
   const [showEditModal, setShowEditModal] = useState(false)
-  const { postList, setPostList, updatePostItem } = usePostStore();
+  const { postList, setPostList, updatePostItem, deletePostItem } = usePostStore();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,6 +58,15 @@ const ListPosts = ({ type = "" }) => {
       return;
     }
     navigate(`/post`, { state: { postId: id } })
+  }
+
+  const onClickDeletePost = (id: string) => {
+    let confirmAnswer = confirm("Are you sure to delete this post?")
+    if (!!confirmAnswer) {
+      DELETE_post(id).then((_) => {
+        deletePostItem(id)
+      })
+    }
   }
 
 
@@ -111,30 +120,33 @@ const ListPosts = ({ type = "" }) => {
                   <TableCell>{renderPostType(post.type)}</TableCell>
                   <TableCell>{post.userEmail}</TableCell>
                   <TableHead>{post.createdAt}</TableHead>
-                  {type !== "user" && post.type !== "2" && (
-                    <>
-                      <TableCell>
-                        <Switch
-                          checked={post.isPresented === "1" ? true : false}
-                          onCheckedChange={() =>
-                            onSwitchShowType({
-                              id: post.id,
-                              isPresented: post.isPresented === "1" ? "0" : "1"
-                            })}
-                        >
-                          {post.isPresented}
-                        </Switch>
-                      </TableCell>
-                      <TableCell>
-                        <Button onClick={() => {
-                          setCurRowData({ ...post })
-                          setShowEditModal(true)
-                        }}>
-                          Edit: {post.title}
-                        </Button>
-                      </TableCell>
-                    </>
-                  )}
+                  {type !== "user" && <>
+                    <TableCell>
+                      <Switch
+                        checked={post.isPresented === "1" ? true : false}
+                        onCheckedChange={() =>
+                          onSwitchShowType({
+                            id: post.id,
+                            isPresented: post.isPresented === "1" ? "0" : "1"
+                          })}
+                      >
+                        {post.isPresented}
+                      </Switch>
+                    </TableCell>
+                    <TableCell className='flex gap-1'>
+                      {type !== "user" && post.type !== "2" ? <Button onClick={() => {
+                        setCurRowData({ ...post })
+                        setShowEditModal(true)
+                      }}>
+                        Edit
+                      </Button> : null}
+                      <Button className='bg-red-500 hover:bg-red-800'
+                        onClick={() => onClickDeletePost(post.id)}>
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </>}
+
                 </TableRow>
               )
             })
