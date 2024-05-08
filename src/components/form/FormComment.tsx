@@ -19,7 +19,7 @@ import { Loader2 } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "../ui/input"
 import { useState } from "react"
-import usePostStore from "@/store/postStore"
+
 
 
 
@@ -28,7 +28,7 @@ import usePostStore from "@/store/postStore"
 const FormComment = ({ parentId }: { parentId: string }) => {
   const [loading, setLoading] = useState(false)
 
-  const { addPost } = usePostStore()
+
 
   const formSchema = z.object(
     {
@@ -60,7 +60,7 @@ const FormComment = ({ parentId }: { parentId: string }) => {
       parentPostId: parentId,
       isPresented: "1"
     }
-    return POST_post(postParam).then((result) => {
+    return POST_post(postParam).then((_) => {
       alert("Comment has been posted.")
       return window.location.reload()
     }).finally(() => {
