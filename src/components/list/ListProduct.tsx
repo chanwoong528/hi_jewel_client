@@ -172,7 +172,9 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
                 headerChild={
                   <Card className="w-full max-w-[150px] aspect-square relative cursor-pointer overflow-hidden">
                     <CardHeader className="flex justify-between w-full h-full absolute z-10 p-2 " >
-                      <CardTitle>{product.title}</CardTitle>
+                      <CardTitle className=" text-lg">
+                        {product.title.toLocaleUpperCase()}
+                      </CardTitle>
                       <CardDescription>{product.description}</CardDescription>
                     </CardHeader>
                     <CardContent className="absolute top-0 left-0 p-0 z-0 opacity-50">
