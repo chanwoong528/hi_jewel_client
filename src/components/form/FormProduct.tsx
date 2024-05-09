@@ -88,12 +88,14 @@ const FormProduct = ({ curData }: FormProductProps) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true)
-    if (curData?.id) {
+    console.log("onSubmit val ", values)
+    if (!!curData?.id) {
+      console.log(curData)
       //edit
       return PATCH_product(curData.id, {
         title: values.productTitle,
         description: values.description,
-        image: values.imgFile,
+        image: values.imgFileEdit,
         typeId: values.productType
       }).then((result) => {
         if (result.data.imgSrc) {
@@ -197,7 +199,7 @@ const FormProduct = ({ curData }: FormProductProps) => {
         />
         <FormField
           control={form.control}
-          name="imgFile"
+          name={curData?.id ? "imgFileEdit" : "imgFile"}
           render={({ field }) => (
             <FormItem>
               <FormLabel>imgFile</FormLabel>
@@ -205,9 +207,7 @@ const FormProduct = ({ curData }: FormProductProps) => {
                 <Input
                   accept=".jpg, .jpeg, .png, .svg, .gif"
                   type="file"
-                  onChange={(e) =>
-                    field.onChange(e.target.files ? e.target.files[0] : null)
-                  } />
+                  onChange={(e) => field.onChange(e.target.files ? e.target.files[0] : null)} />
               </FormControl>
               <FormDescription>
                 {curData?.imgSrc ?

@@ -83,7 +83,7 @@ export const DELETE_productType = async (productTypeId: string) => {
     const fetchDeleteProduct = await http.delete(
       `/product/type/${productTypeId}`
     );
-    console.log("!!!!!!!!!!!! ", fetchDeleteProduct);
+
     return fetchDeleteProduct;
   } catch (error) {
     throw error;
@@ -143,7 +143,6 @@ export const PATCH_product = async (id: string, product: ProductEditParam) => {
 export const DELETE_product = async (productId: string) => {
   try {
     const fetchDeleteProduct = await http.delete(`/product/${productId}`);
-    console.log(fetchDeleteProduct);
 
     return fetchDeleteProduct;
   } catch (error) {
