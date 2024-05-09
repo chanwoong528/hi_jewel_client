@@ -166,13 +166,13 @@ const ListProductType = ({ type = "admin", }) => {
             ?.map((productType) => {
               return (
                 <Card
-                  className="flex justify-center align-middle w-full max-w-[400px] aspect-square relative cursor-pointer"
+                  className="flex justify-center align-middle w-full max-w-[400px] aspect-square relative cursor-pointer overflow-hidden"
                   key={productType.id}
                   onClick={() => onClickProductType(productType.label)}
                 >
-                  <CardHeader className="flex justify-between w-full h-full absolute z-10" >
-                    <CardTitle>{productType.label}</CardTitle>
-                    <CardDescription>{productType.description}</CardDescription>
+                  <CardHeader className="flex justify-between w-full h-full absolute z-10  md:p-6 p-4" >
+                    <CardTitle className="md:text-2xl text-base">{productType.label}</CardTitle>
+                    <CardDescription className="md:text-base text-sm">{productType.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="absolute top-0 left-0 p-0 z-0 opacity-50">
                     <img src={productType.imgSrc} alt="" />
