@@ -162,8 +162,8 @@ const ListProductType = ({ type = "admin", }) => {
           .length < 1 ?
           "No product type available. Please add one."
           : (productTypeList
-            .filter(item => item.isPresented === "1")
-            ?.map((productType) => {
+            ?.filter(item => item.isPresented === "1")
+            .map((productType) => {
               return (
                 <Card
                   className="flex justify-center align-middle w-full max-w-[400px] aspect-square relative cursor-pointer overflow-hidden"
@@ -172,7 +172,7 @@ const ListProductType = ({ type = "admin", }) => {
                 >
                   <CardHeader className="flex justify-between w-full h-full absolute z-10  md:p-6 p-4" >
                     <CardTitle className="md:text-2xl text-base">{productType.label}</CardTitle>
-                    <CardDescription className="md:text-base text-sm">{productType.description}</CardDescription>
+                    {type === "main" ? null : <CardDescription className="md:text-base text-sm">{productType.description}</CardDescription>}
                   </CardHeader>
                   <CardContent className="absolute top-0 left-0 p-0 z-0 opacity-50">
                     <img src={productType.imgSrc} alt="" />
