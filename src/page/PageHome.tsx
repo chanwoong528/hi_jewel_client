@@ -15,7 +15,7 @@ import Autoplay from "embla-carousel-autoplay"
 const PageHome = () => {
   const plugin = useRef(
     Autoplay({
-      delay: 54000,
+      delay: 4000,
       stopOnInteraction: false,
     })
   )
@@ -24,9 +24,7 @@ const PageHome = () => {
       <div className="home-banner w-full">
         <Carousel className="w-full"
           plugins={[plugin.current]}
-
           opts={{
-
             align: "center",
             loop: true,
           }}>
