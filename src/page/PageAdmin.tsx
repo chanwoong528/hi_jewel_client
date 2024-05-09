@@ -10,12 +10,22 @@ import FormProduct from "@/components/form/FormProduct"
 import DefaultModal from "@/components/modal/DefaultModal"
 import ListPosts from "@/components/list/ListPosts"
 import FormPost from "@/components/form/FormPost"
+import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 
 
 const PageAdmin = () => {
+  const navigate = useNavigate();
+
+  const onClickLogout = () => {
+    localStorage.removeItem("accessToken")
+    localStorage.removeItem("refreshToken")
+    navigate(`/`)
+  }
 
   return (
     <main className="page">
+
       <Tabs defaultValue="type-list" >
         <div className="w-full overflow-x-auto">
           <TabsList >
@@ -72,6 +82,7 @@ const PageAdmin = () => {
           <ListUsers />
         </TabsContent>
       </Tabs>
+      <Button className="max-w-[150px]" onClick={onClickLogout}>Logout</Button>
     </main>
   )
 }
