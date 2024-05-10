@@ -88,9 +88,7 @@ const FormProduct = ({ curData }: FormProductProps) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true)
-    console.log("onSubmit val ", values)
     if (!!curData?.id) {
-      console.log(curData)
       //edit
       return PATCH_product(curData.id, {
         title: values.productTitle,
