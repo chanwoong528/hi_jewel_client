@@ -41,7 +41,7 @@ const PageAdmin = () => {
             <h3>{"CategoryList list"}</h3>
           </header>
           {/* add New Cate */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 overflow-y-auto">
             <DefaultModal
               dialogTitle={"New Category"}
               triggerTitle={"Add New Category"}
@@ -51,7 +51,6 @@ const PageAdmin = () => {
             {/* add New Cate */}
             {/* Order Modal*/}
             <DefaultModal
-
               dialogTitle={"Order of Category"}
               triggerTitle={"Set Order of Category"}
             >

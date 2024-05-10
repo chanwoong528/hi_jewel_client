@@ -34,7 +34,7 @@ const DefaultModal = ({
           <Button className='max-w-[250px] my-2 bg-slate-700'>{triggerTitle}</Button>
         </DialogTrigger>)
         : null}
-      <DialogContent className="overflow-y-scroll max-h-screen">
+      <DialogContent className="overflow-y-auto max-h-screen">
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
           {children}
