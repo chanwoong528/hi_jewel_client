@@ -18,6 +18,12 @@ module.exports = {
         "md": "768px",
       },
     },
+    fontSize: {
+      sm: ['16px', '22px'],
+      base: ['16px', '26px'],
+      lg: ['22px', '30px'],
+      xl: ['24px', '32px'],
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
