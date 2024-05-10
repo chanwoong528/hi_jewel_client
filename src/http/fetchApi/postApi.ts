@@ -49,7 +49,6 @@ export const PATCH_post = async (
   postId: string,
   postEditData: PostEditParam
 ) => {
-  console.log(postId, postEditData);
 
   try {
     const fetchPatchPost = await http.patch(`/post/${postId}`, postEditData);

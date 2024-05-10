@@ -93,47 +93,50 @@ const ListProductType = ({ type = "admin", }) => {
           </TableHeader>
           <TableBody>
             {
-              productTypeList?.map((productType, idx: number) => {
-                return (
-                  <TableRow key={productType.id}>
-                    <TableCell>{idx + 1}</TableCell>
-                    <TableCell>{productType.label}</TableCell>
-                    <TableCell>{productType.description}</TableCell>
-                    <TableCell>
-                      <img src={productType.imgSrc} alt="" />
-                    </TableCell>
-                    <TableCell>
-                      <Switch
-                        checked={productType.isPresented === "1" ? true : false}
-                        onCheckedChange={() =>
-                          onSwitchShowType({
+              productTypeList
+                ?.sort((a, b) => a.order - b.order)
+                ?.sort((a, b) => Number(b.isPresented) - Number(a.isPresented))
+                .map((productType, idx: number) => {
+                  return (
+                    <TableRow key={productType.id}>
+                      <TableCell>{idx + 1}</TableCell>
+                      <TableCell>{productType.label}</TableCell>
+                      <TableCell>{productType.description}</TableCell>
+                      <TableCell>
+                        <img src={productType.imgSrc} alt="" />
+                      </TableCell>
+                      <TableCell>
+                        <Switch
+                          checked={productType.isPresented === "1" ? true : false}
+                          onCheckedChange={() =>
+                            onSwitchShowType({
+                              id: productType.id,
+                              isPresented: productType.isPresented === "1" ? "0" : "1"
+                            })}
+                        >
+                          {productType.isPresented}
+                        </Switch>
+                      </TableCell>
+                      <TableCell className='flex gap-1 items-center'>
+                        <Button onClick={() => {
+                          setCurRowData({
                             id: productType.id,
-                            isPresented: productType.isPresented === "1" ? "0" : "1"
-                          })}
-                      >
-                        {productType.isPresented}
-                      </Switch>
-                    </TableCell>
-                    <TableCell className='flex gap-1 items-center'>
-                      <Button onClick={() => {
-                        setCurRowData({
-                          id: productType.id,
-                          label: productType.label,
-                          description: productType.description,
-                          imgSrc: productType.imgSrc,
-                        })
-                        setShowEditModal(true)
-                      }}>
-                        Edit
-                      </Button>
-                      <Button className='bg-red-500 hover:bg-red-800'
-                        onClick={() => onClickDeleteProductType(productType.id)}>
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                )
-              })
+                            label: productType.label,
+                            description: productType.description,
+                            imgSrc: productType.imgSrc,
+                          })
+                          setShowEditModal(true)
+                        }}>
+                          Edit
+                        </Button>
+                        <Button className='bg-red-500 hover:bg-red-800'
+                          onClick={() => onClickDeleteProductType(productType.id)}>
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })
             }
           </TableBody>
         </Table >
@@ -163,6 +166,7 @@ const ListProductType = ({ type = "admin", }) => {
           "No product type available. Please add one."
           : (productTypeList
             ?.filter(item => item.isPresented === "1")
+            .sort((a, b) => a.order - b.order)
             .map((productType) => {
               return (
                 <Card
