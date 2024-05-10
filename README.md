@@ -1,11 +1,56 @@
 # HI JEWEL Client Page (React + TypeScript + Vite)
 
+_[HI JEWEL URL](https://hi-jewel.netlify.app/)_
+
+_[BACKEND REPO](https://github.com/chanwoong528/hi_jewel_server)_
+
 ## ⚒️ Tech Stack
+
 - Main: React
 - State Management: React-Query, Zustand
-- Style: tbd
+- Style: tailwind + shadcn
+- Deploy: netlify => AWS(S3/cloudFront) will be migrated soon
+
+## 📚 Main Library
+
+- "react-dnd": "^16.0.1",
+- "react-router-dom": "^6.22.0",
+- "suneditor": "^2.45.1",
+- "zod": "^3.22.4",
+- "react-hook-form": "^7.51.0",
+- "tailwind"
+- "shadcn"
+
+## 📂 Folder Structure
+
+```
+project
+│   README.md
+│   deploy.sh -> aws cold deploy setting
+|   appspec.yml -> aws cold deploy setting
+│
+└─── page
+│   about.tsx
+│   admin.tsx
+│   home.tsx
+|   ... Each page representation
+│
+└─── components
+│   └─── ui   (shadcn ui lib)
+│   └─── modal (wrapper for modal)
+│   └─── form (form using react-hook-form + zod)
+│   └─── list (list of each category ex:post, product, etc mostly like table)
+└─── http
+│   └─── fetchApi (api classified as domains)
+│   | http = axios custom settings (for auto login / refresh<-> access token config, etc)
+│   └─── service (React-query hook forms)
+└─── store (zustand store)
+└─── utils (Constant / util function like date converter)
+└─── style (Global style)
+```
 
 ## 📏 Code Convention
+
 - JS/React Code
 - Style Rule
 
@@ -26,7 +71,3 @@ export default {
   },
 };
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
