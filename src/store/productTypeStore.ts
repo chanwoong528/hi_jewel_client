@@ -8,13 +8,14 @@ export type ProductType = {
   createdAt: string;
   updatedAt: string;
   isPresented: "0" | "1";
+  order: number;
 };
 type ProductEditType = {
   id: string;
   label?: string;
   description?: string;
   imgSrc?: string;
-
+  order?: number;
   isPresented?: "0" | "1";
 };
 interface ProductTypeState {

@@ -12,6 +12,7 @@ import ListPosts from "@/components/list/ListPosts"
 import FormPost from "@/components/form/FormPost"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
+import ListProductTypeOrder from "@/components/list/ListProductTypeOrder"
 
 
 const PageAdmin = () => {
@@ -25,7 +26,6 @@ const PageAdmin = () => {
 
   return (
     <main className="page">
-
       <Tabs defaultValue="type-list" >
         <div className="w-full overflow-x-auto">
           <TabsList >
@@ -40,12 +40,25 @@ const PageAdmin = () => {
           <header>
             <h3>{"CategoryList list"}</h3>
           </header>
-          <DefaultModal
-            dialogTitle={"Upload Image"}
-            triggerTitle={"Add New Category"}
-          >
-            <FormProductType />
-          </DefaultModal>
+          {/* add New Cate */}
+          <div className="flex gap-2">
+            <DefaultModal
+              dialogTitle={"New Category"}
+              triggerTitle={"Add New Category"}
+            >
+              <FormProductType />
+            </DefaultModal>
+            {/* add New Cate */}
+            {/* Order Modal*/}
+            <DefaultModal
+
+              dialogTitle={"Order of Category"}
+              triggerTitle={"Set Order of Category"}
+            >
+              <ListProductTypeOrder />
+            </DefaultModal>
+          </div>
+          {/* Order Modal*/}
           <ListProductType />
         </TabsContent>
 
