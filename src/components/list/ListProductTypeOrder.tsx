@@ -1,6 +1,10 @@
 import { useCallback, useRef, useState } from 'react'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { isMobileOnly } from "react-device-detect";
+
+import { TouchBackend } from 'react-dnd-touch-backend'
+
 import update from 'immutability-helper'
 
 import useProductTypeStore, { ProductType } from '@/store/productTypeStore'
@@ -146,7 +150,7 @@ const ListProductTypeOrder = () => {
 
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={!!isMobileOnly ? TouchBackend : HTML5Backend}>
       <Button className='max-w-[250px]' onClick={onClickSave}>Save Order</Button>
       <ul className='flex flex-col'>
         {tempList
