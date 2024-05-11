@@ -13,13 +13,17 @@ import {
 
 import { PAGE_LIST } from '../utils/CONSTANT'
 
-import "./navbar.module.scss"
 import { useEffect } from "react";
 import { GET_user } from "@/http/fetchApi/userApi";
 
 import { useLocation } from "react-router-dom";
 
 import logo from "../assets/image/logo.png"
+import { ImInstagram } from "react-icons/im";
+
+import "./navbar.module.scss"
+import { PATCH_stats, StatType } from "@/http/fetchApi/statsApi";
+import { formatDateYYYYMMDD } from "@/utils/utilsFunction";
 
 const Navbar = () => {
   let location = useLocation();
@@ -57,21 +61,36 @@ const Navbar = () => {
           <NavigationMenuItem >
             <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
             <NavigationMenuContent className="list-none">
-
-              {PAGE_LIST.filter(page => !page.adminRequired && !!page.show).map((page) => {
-                return <li key={"nav-" + page.label}>
-                  <Button variant="ghost">
-                    <Link to={page.url}>{page.label}</Link>
+              <ul className="flex-col">
+                {PAGE_LIST.filter(page => !page.adminRequired && !!page.show).map((page) => {
+                  return <li key={"nav-" + page.label}>
+                    <Button variant="ghost">
+                      <Link to={page.url}>{page.label}</Link>
+                    </Button>
+                  </li>
+                })}
+                <li>
+                  <Button
+                    asChild
+                    variant="link"
+                    onClick={() =>
+                      PATCH_stats({
+                        date: formatDateYYYYMMDD(),
+                        type: StatType.instaClick,
+                        productId: null
+                      })
+                    }>
+                    <a
+                      className="flex items-center"
+                      href="https://www.instagram.com/hi_jewel_official?igsh=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr"
+                      target="_blank"
+                    >
+                      <ImInstagram size={"1.2rem"} />
+                      <span className="ml-1">INSTA(hi_jewel_official)</span>
+                    </a>
                   </Button>
                 </li>
-              })}
-              {/* {
-                userInfo.userRole === "admin" ? <li>
-                  <Button asChild variant="ghost">
-                    <Link to={"/admin"}>Admin</Link>
-                  </Button>
-                </li> : null
-              } */}
+              </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -100,20 +119,27 @@ const Navbar = () => {
             </Button>
           </li>
         })}
-        {/* {
-          !!(userInfo.userRole === "admin") ? <li>
-            <Button asChild variant="ghost">
-              <Link to={"/admin"}>ADMIN</Link>
-            </Button>
-          </li> : null
-        } */}
-        {/* {
-          !userInfo.userId ? <li>
-            <Button asChild variant="ghost">
-              <Link to={"/login"}>LOGIN</Link>
-            </Button>
-          </li> : null
-        } */}
+        <li>
+          <Button
+            asChild
+            variant="link"
+            onClick={() =>
+              PATCH_stats({
+                date: formatDateYYYYMMDD(),
+                type: StatType.instaClick,
+                productId: null
+              })
+            }>
+            <a
+              className="flex items-center"
+              href="https://www.instagram.com/hi_jewel_official?igsh=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr"
+              target="_blank"
+            >
+              <ImInstagram size={"1.2rem"} />
+              <span className="ml-1">INSTA(hi_jewel_official)</span>
+            </a>
+          </Button>
+        </li>
       </ul>
     </nav>
   )

@@ -26,15 +26,23 @@ const PageAdmin = () => {
 
   return (
     <main className="page">
-      <Tabs defaultValue="type-list" >
+      <Tabs defaultValue="dash-board" >
         <div className="w-full overflow-x-auto">
           <TabsList >
+            <TabsTrigger value="dash-board">Dash Board</TabsTrigger>
             <TabsTrigger value="type-list">Category Manager</TabsTrigger>
             <TabsTrigger value="item-list">Uploaded Item</TabsTrigger>
             <TabsTrigger value="post-list">Manage Post</TabsTrigger>
             <TabsTrigger value="user-list">User List</TabsTrigger>
           </TabsList>
         </div>
+        <TabsContent value="dash-board">
+          <header>
+            <h3>{"Dash Board"}</h3>
+          </header>
+        </TabsContent>
+
+
 
         <TabsContent value="type-list">
           <header>

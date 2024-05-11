@@ -46,34 +46,3 @@ export const PAGE_LIST = [
     show: false,
   },
 ];
-
-export const PRODUCT_TYPE_LIST_IMG = [
-  {
-    name: "Earring",
-    imgSrc: "",
-  },
-  {
-    name: "Necklace",
-    imgSrc: "",
-  },
-  {
-    name: "Bracelet",
-    imgSrc: "",
-  },
-  {
-    name: "Ring",
-    imgSrc: "",
-  },
-  {
-    name: "Chain",
-    imgSrc: "",
-  },
-  {
-    name: "Set",
-    imgSrc: "",
-  },
-  {
-    name: "Other Acc.",
-    imgSrc: "",
-  },
-];

@@ -13,6 +13,9 @@ import { PAGE_LABEL, PAGE_LIST } from './utils/CONSTANT'
 
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import { useEffect } from 'react'
+import { PATCH_stats } from './http/fetchApi/statsApi'
+import { formatDateYYYYMMDD } from './utils/utilsFunction'
 
 
 const ROUTE_LIST = {
@@ -28,6 +31,10 @@ const ROUTE_LIST = {
 }
 
 const Router = () => {
+
+  useEffect(() => {
+    PATCH_stats({ date: formatDateYYYYMMDD(), type: "visitorCount", productId: null })
+  }, [])
 
   return (
     <div className='wrap'>

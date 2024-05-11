@@ -12,3 +12,13 @@ export const convertToDateString = (timestamp: string) => {
 
   return dateString;
 };
+
+export const formatDateYYYYMMDD = (date?: Date) => {
+  //2022-01-01 format
+  const originDate = date ? date : new Date();
+
+  const year = originDate.getFullYear();
+  const month = String(originDate.getMonth() + 1).padStart(2, "0");
+  const day = String(originDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
