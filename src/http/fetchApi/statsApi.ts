@@ -1,9 +1,11 @@
+import { checkUserAgent } from "@/utils/utilsFunction";
 import { http } from "../http";
 
 export interface StatParam {
   date: string; //key
   type: "visitorCount" | "productClick" | "instaClick";
   productId: string | null;
+  userAgent?: string;
 }
 
 export enum StatType {
@@ -17,6 +19,7 @@ export const PATCH_stats = async (stats: StatParam) => {
     const createStats = await http.patch("/stats", {
       ...stats,
       productId: stats.productId || "noId",
+      userAgent: checkUserAgent(),
     });
     const data = await createStats.data;
     return data;

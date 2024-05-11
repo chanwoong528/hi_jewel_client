@@ -22,3 +22,29 @@ export const formatDateYYYYMMDD = (date?: Date) => {
   const day = String(originDate.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
+
+export const checkUserAgent = () => {
+  const userAgent = navigator.userAgent;
+
+  if (/android/i.test(userAgent)) {
+    return "Android";
+  } else if (/iphone|ipad|ipod/i.test(userAgent)) {
+    return "iPhone";
+  } else {
+    return "PC";
+  }
+};
+
+export const getDateRangeArray = (daysInteval: number) => {
+  //daysInteval represent +- days from current date
+  const currentDate = new Date();
+  const dateRange = [];
+
+  for (let i = -daysInteval; i <= daysInteval; i++) {
+    const date = new Date();
+    date.setDate(currentDate.getDate() + i);
+    dateRange.push(date.toISOString().split("T")[0]);
+  }
+
+  return dateRange;
+};
