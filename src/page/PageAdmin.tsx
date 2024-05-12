@@ -13,9 +13,32 @@ import FormPost from "@/components/form/FormPost"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
 import ListProductTypeOrder from "@/components/list/ListProductTypeOrder"
+import DashBoard from "@/components/DashBoard"
+import { useEffect } from "react"
+import { GET_Product, GET_productType } from "@/http/fetchApi/productApi"
+import useProductTypeStore from "@/store/productTypeStore"
+import useProductStore from "@/store/productStore"
 
 
 const PageAdmin = () => {
+  const { productTypeList, setProductTypeList } = useProductTypeStore();
+  const { setProductList } = useProductStore();
+
+  useEffect(() => {
+    const fetchProductType = async () => {
+      if (productTypeList.length < 1) {
+        const response = await GET_productType();
+        setProductTypeList(response.data);
+      }
+      const response = await GET_Product();
+      setProductList(response.data);
+    }
+    fetchProductType();
+  }, [])
+
+
+
+
   const navigate = useNavigate();
 
   const onClickLogout = () => {
@@ -26,15 +49,26 @@ const PageAdmin = () => {
 
   return (
     <main className="page">
-      <Tabs defaultValue="type-list" >
+      <Tabs defaultValue="dash-board" >
         <div className="w-full overflow-x-auto">
           <TabsList >
+            <TabsTrigger value="dash-board">Dash Board</TabsTrigger>
             <TabsTrigger value="type-list">Category Manager</TabsTrigger>
             <TabsTrigger value="item-list">Uploaded Item</TabsTrigger>
             <TabsTrigger value="post-list">Manage Post</TabsTrigger>
             <TabsTrigger value="user-list">User List</TabsTrigger>
           </TabsList>
         </div>
+        <TabsContent value="dash-board">
+          <header>
+            <h3>{"Dash Board"}</h3>
+          </header>
+
+          <DashBoard />
+
+        </TabsContent>
+
+
 
         <TabsContent value="type-list">
           <header>

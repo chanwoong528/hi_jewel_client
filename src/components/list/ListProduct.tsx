@@ -25,6 +25,8 @@ import DefaultModal from "../modal/DefaultModal";
 import FormProduct from "../form/FormProduct";
 import { Button } from "../ui/button";
 import DetailModal from "../modal/DetailModal";
+import { PATCH_stats, StatType } from "@/http/fetchApi/statsApi";
+import { formatDateYYYYMMDD } from "@/utils/utilsFunction";
 
 
 interface EditShowTypeProps {
@@ -170,7 +172,15 @@ const ListProduct = ({ type = "admin", curTab = "" }) => {
 
                 key={product.id}
                 headerChild={
-                  <Card className="w-full max-w-[150px] aspect-square relative cursor-pointer overflow-hidden">
+                  <Card className="w-full max-w-[150px] aspect-square relative cursor-pointer overflow-hidden"
+                    onClick={() =>
+                      PATCH_stats({
+                        date: formatDateYYYYMMDD(),
+                        type: StatType.productClick,
+                        productId: product.id
+                      })
+                    }
+                  >
                     <CardHeader className="flex justify-between w-full h-full absolute z-10 p-2 " >
                       <CardTitle className=" text-lg">
                         {product.title.toLocaleUpperCase()}
