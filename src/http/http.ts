@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const DEV_BASE_RESTAPI = "https://hijewelserver-production.up.railway.app";
-const DEV_BASE_RESTAPI = "http://localhost:5002";
+const DEV_BASE_RESTAPI = "https://hijewelserver-production.up.railway.app";
+// const DEV_BASE_RESTAPI = "http://localhost:5002";
 
 export const http = axios.create({
   baseURL: DEV_BASE_RESTAPI,
