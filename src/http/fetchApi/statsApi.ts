@@ -28,3 +28,21 @@ export const PATCH_stats = async (stats: StatParam) => {
     throw error;
   }
 };
+export enum GetStatType {
+  totalProductCount = "totalProductCount",
+  viewsByDateArr = "viewsByDateArr",
+}
+export const GET_stats = async (type: GetStatType) => {
+  try {
+    const stats = await http.get("/stats", {
+      params: {
+        type,
+      },
+    });
+    const data = await stats.data;
+    return data;
+  } catch (error) {
+    console.warn(error);
+    throw error;
+  }
+};

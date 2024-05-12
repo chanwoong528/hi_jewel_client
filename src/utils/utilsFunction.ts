@@ -35,12 +35,12 @@ export const checkUserAgent = () => {
   }
 };
 
-export const getDateRangeArray = (daysInteval: number) => {
+export const getDateRangeArray = (daysInterval: number) => {
   //daysInteval represent +- days from current date
   const currentDate = new Date();
   const dateRange = [];
 
-  for (let i = -daysInteval; i <= daysInteval; i++) {
+  for (let i = -daysInterval; i <= daysInterval; i++) {
     const date = new Date();
     date.setDate(currentDate.getDate() + i);
     dateRange.push(date.toISOString().split("T")[0]);
@@ -48,3 +48,27 @@ export const getDateRangeArray = (daysInteval: number) => {
 
   return dateRange;
 };
+export const joinTwoArray = (
+  arr1: any[],
+  arr2: any[],
+  key1: string,
+  key2: string
+) => {
+  return arr1.map((item1) => {
+    const item2 = arr2.find((item) => item[key1] === item1[key2]);
+    return { ...item1, ...item2 };
+  });
+};
+export function groupByDate(data: any) {
+  return data.reduce((acc: any, obj: any) => {
+    // Use the date as the key for the groups
+    const key = obj.date;
+    // If the key doesn't exist yet, create it
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    // Push the current object into the correct date group
+    acc[key].push(obj);
+    return acc;
+  }, {});
+}

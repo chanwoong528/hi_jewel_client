@@ -13,9 +13,32 @@ import FormPost from "@/components/form/FormPost"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
 import ListProductTypeOrder from "@/components/list/ListProductTypeOrder"
+import DashBoard from "@/components/DashBoard"
+import { useEffect } from "react"
+import { GET_Product, GET_productType } from "@/http/fetchApi/productApi"
+import useProductTypeStore from "@/store/productTypeStore"
+import useProductStore from "@/store/productStore"
 
 
 const PageAdmin = () => {
+  const { productTypeList, setProductTypeList } = useProductTypeStore();
+  const { setProductList } = useProductStore();
+
+  useEffect(() => {
+    const fetchProductType = async () => {
+      if (productTypeList.length < 1) {
+        const response = await GET_productType();
+        setProductTypeList(response.data);
+      }
+      const response = await GET_Product();
+      setProductList(response.data);
+    }
+    fetchProductType();
+  }, [])
+
+
+
+
   const navigate = useNavigate();
 
   const onClickLogout = () => {
@@ -40,6 +63,9 @@ const PageAdmin = () => {
           <header>
             <h3>{"Dash Board"}</h3>
           </header>
+
+          <DashBoard />
+
         </TabsContent>
 
 
