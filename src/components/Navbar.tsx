@@ -1,6 +1,8 @@
+import { useEffect } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 import { isMobileOnly } from "react-device-detect";
-import useUserStore from "../store/userStore";
+import { ImInstagram } from "react-icons/im";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -11,23 +13,22 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 
-import { PAGE_LIST } from '../utils/CONSTANT'
-
-import { useEffect } from "react";
 import { GET_user } from "@/http/fetchApi/userApi";
-
-import { useLocation } from "react-router-dom";
-
-import logo from "../assets/image/logo.png"
-import { ImInstagram } from "react-icons/im";
-
-import "./navbar.module.scss"
 import { PATCH_stats, StatType } from "@/http/fetchApi/statsApi";
+import useUserStore from "../store/userStore";
+
+import usePathname from "@/hooks/usePathname";
 import { formatDateYYYYMMDD } from "@/utils/utilsFunction";
 
+import { PAGE_LIST } from '../utils/CONSTANT'
+import logo from "../assets/image/logo.png"
+
+
+import "./navbar.module.scss"
+
 const Navbar = () => {
-  let location = useLocation();
   const navigation = useNavigate();
+  const pathname = usePathname();
   const { updateUser, resetUser } = useUserStore();
 
   useEffect(() => {
@@ -35,14 +36,14 @@ const Navbar = () => {
       GET_user().then((result) => {
         updateUser(result.data)
       }).catch(() => {
-        if (location.pathname === "/admin") {
+        if (pathname === "/admin") {
           navigation("/login")
         }
         resetUser();
       })
     }
     fetchGetUser();
-  }, [location.pathname === "/admin"])
+  }, [pathname])
 
 
 
