@@ -23,7 +23,6 @@ import { formatDateYYYYMMDD } from "@/utils/utilsFunction";
 import { PAGE_LIST } from '../utils/CONSTANT'
 import logo from "../assets/image/logo.png"
 
-
 import "./navbar.module.scss"
 
 const Navbar = () => {
@@ -32,15 +31,16 @@ const Navbar = () => {
   const { updateUser, resetUser } = useUserStore();
 
   useEffect(() => {
+
     const fetchGetUser = () => {
-      GET_user().then((result) => {
-        updateUser(result.data)
-      }).catch(() => {
-        if (pathname === "/admin") {
+      if (pathname === "/admin") {
+        GET_user().then((result) => {
+          updateUser(result.data)
+        }).catch(() => {
           navigation("/login")
-        }
-        resetUser();
-      })
+          resetUser();
+        })
+      }
     }
     fetchGetUser();
   }, [pathname])
